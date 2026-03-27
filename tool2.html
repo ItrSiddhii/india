@@ -1,1 +1,193 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITRSIDDHII - Premium GST Invoice Workdesk</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        :root {
+            --primary-navy: #101E31;
+            --vibrant-gold: #C5A880;
+            --vibrant-gold-light: #F1E5D1;
+            --cream-bg: #FDFBF7;
+            --glass-white: rgba(255, 255, 255, 0.98);
+            --glass-border: rgba(197, 168, 128, 0.45);
+            --text-main: #2C3E50;
+            --text-light: #7F8C8D;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--cream-bg);
+            background-image: radial-gradient(var(--vibrant-gold) 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            color: var(--text-main);
+        }
+
+        header {
+            background: var(--primary-navy);
+            color: #fff;
+            padding: 15px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--vibrant-gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lotus-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #FF6B6B, #F06292);
+            clip-path: polygon(50% 0%, 80% 30%, 100% 70%, 50% 100%, 0% 70%, 20% 30%);
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-area h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-area h1 span { color: var(--vibrant-gold); }
+
+        .logo-area .subheadings {
+            border-left: 2.5px solid var(--vibrant-gold);
+            padding-left: 15px;
+            margin-left: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-area .sub-text {
+            font-size: 0.88rem;
+            color: #ECEFF1;
+            font-weight: 600;
+        }
+
+        .logo-area .email-tag {
+            font-size: 0.75rem;
+            color: var(--vibrant-gold);
+            margin-top: 3px;
+        }
+
+        .btn-action {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(197, 168, 128, 0.4);
+            color: #fff;
+            background: var(--vibrant-gold);
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            background-color: var(--vibrant-gold-light);
+            color: var(--primary-navy);
+        }
+
+        .container {
+            padding: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        #pdf-container {
+            background: var(--cream-bg);
+            padding: 25px;
+            border-radius: 12px;
+        }
+
+        /* Visible Branding on Captured PDF Canvas */
+        .pdf-header-print {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-navy);
+            padding-bottom: 18px;
+            margin-bottom: 30px;
+        }
+
+        .pdf-header-print h2 {
+            margin: 0;
+            color: var(--primary-navy);
+            font-size: 2.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .glass-box {
+            background: var(--glass-white);
+            backdrop-filter: blur(12px);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 12px 40px rgba(44, 62, 80, 0.1);
+            margin-bottom: 30px;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            color: var(--primary-navy);
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(197, 168, 128, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; margin-bottom: 6px; color: var(--text-light); text-transform: uppercase; }
+        .form-group input, .form-group select { padding: 12px; border: 1px solid rgba(197, 168, 128, 0.5); border-radius: 8px; font-size: 0.95rem; background: #fff; outline: none; }
+        .form-group input:focus, .form-group select:focus { border-color: var(--vibrant-gold); }
+
+        /* Invoice Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        th, td { border: 1px solid rgba(197, 168, 128, 0.3); padding: 12px; }
+        th { background-color: #F7F3EE; color: var(--primary-navy); font-weight: 700; text-align: left; }
+
+        input.
