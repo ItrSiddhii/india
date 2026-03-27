@@ -10,7 +10,7 @@
 
     <style>
         :root {
-            --gold-matte: #C5A880;
+            --gold: #C5A880;
             --gold-dark: #A68A64;
             --cream-bg: #FDFBF7;
             --glass-white: rgba(255, 255, 255, 0.95);
@@ -31,10 +31,10 @@
             color: var(--text-main);
         }
 
+        /* Web Application Header */
         header {
             background: rgba(253, 251, 247, 0.9);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
@@ -51,10 +51,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            letter-spacing: 1px;
         }
-
-        .logo-area h1 span.gold-text { color: var(--gold-matte); }
 
         .logo-area span.sub-text {
             font-size: 0.85rem;
@@ -73,13 +70,12 @@
         .ay-select {
             padding: 10px 14px;
             border-radius: 8px;
-            border: 1px solid var(--gold-matte);
+            border: 1px solid var(--gold);
             background: #fff;
             color: var(--text-main);
             font-weight: 600;
-            cursor: pointer;
             outline: none;
-            font-size: 0.9rem;
+            cursor: pointer;
         }
 
         .btn-action {
@@ -87,7 +83,6 @@
             border: none;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.85rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -95,94 +90,54 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 12px rgba(166, 138, 100, 0.2);
             color: #fff;
+            background-color: #3A3532;
         }
-
-        .btn-save { background-color: #3A3532; }
 
         .btn-action:hover {
             transform: translateY(-2px);
             opacity: 0.9;
         }
 
-        .tabs {
-            display: flex;
-            padding-left: 30px;
-            gap: 5px;
-            background: rgba(253, 251, 247, 0.5);
-            backdrop-filter: blur(10px);
-            margin-top: 10px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .tab-btn {
-            border: none;
-            background: transparent;
-            padding: 14px 22px;
-            cursor: pointer;
-            font-size: 0.95rem;
-            color: var(--text-light);
-            font-weight: 600;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            transition: all 0.2s ease;
-        }
-
-        .tab-btn.active {
-            background: #fff;
-            color: var(--gold-dark);
-            box-shadow: 0 -3px 10px rgba(197, 168, 128, 0.1);
-        }
-
-        /* Outer Container for spacing & alignment */
         .container {
             padding: 25px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* Inner container used for the exact PDF export */
         #pdf-container {
-            padding: 20px;
+            padding: 25px;
             background: var(--cream-bg);
         }
 
-        /* Visible Branding inside PDF Sheet */
-        .pdf-branding {
+        /* Visible Branding inside the PDF Capturing Canvas */
+        .pdf-heading {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--gold-matte);
+            border-bottom: 2px solid var(--gold);
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
 
-        .pdf-branding h1 {
+        .pdf-heading h2 {
             margin: 0;
             font-size: 1.8rem;
             color: var(--text-main);
-        }
-
-        .pdf-branding .ay-tag {
-            background: var(--gold-matte);
-            color: #fff;
-            padding: 8px 15px;
-            border-radius: 6px;
-            font-weight: bold;
+            border: none;
         }
 
         .glass-box {
             background: var(--glass-white);
             backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            padding: 30px;
+            padding: 25px;
             border-radius: 12px;
             border: 1px solid var(--glass-border);
             box-shadow: 0 10px 30px rgba(197, 168, 128, 0.1);
             margin-bottom: 25px;
-            page-break-inside: avoid; /* Keeps sections intact on multi-page PDF */
+            page-break-inside: avoid; /* Prevents awkward breaks in the PDF middle */
         }
 
-        h2 {
+        h3 {
             font-size: 1.25rem;
             color: var(--text-main);
             margin: 0 0 20px 0;
@@ -213,15 +168,42 @@
             margin-bottom: 10px;
         }
 
-        th, td { border: 1px solid rgba(197, 168, 128, 0.25); padding: 12px; }
+        th, td { border: 1px solid rgba(197, 168, 128, 0.25); padding: 10px; }
         th { background-color: #F7F3EE; font-weight: 700; text-align: left; }
         .num-col { text-align: right; width: 140px; }
 
-        input[type="number"] { width: 100%; padding: 4px; border: 1px solid transparent; text-align: right; font-size: 0.95rem; outline: none; background: transparent; }
-        input[type="number"]:focus { border-bottom: 1px solid var(--gold-matte); }
+        input[type="number"] {
+            width: 100%;
+            padding: 4px;
+            border: 1px solid transparent;
+            text-align: right;
+            font-size: 0.95rem;
+            outline: none;
+            background: transparent;
+        }
+        input[type="number"]:focus {
+            border-bottom: 1px solid var(--gold);
+        }
 
-        .uneditable { background-color: #F8F6F2 !important; font-weight: 700; color: var(--gold-dark); }
-        .total-row { font-weight: bold; background-color: #F7F3EE; }
+        .uneditable {
+            background-color: #F8F6F2 !important;
+            font-weight: 700;
+            color: var(--gold-dark);
+        }
+
+        .total-row {
+            font-weight: bold;
+            background-color: #F7F3EE;
+        }
+
+        .status-badge {
+            font-weight: bold;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 6px;
+            margin-left: 10px;
+            font-size: 0.85rem;
+        }
 
         .footer {
             text-align: center;
@@ -238,130 +220,201 @@
 
     <header>
         <div class="logo-area">
-            <h1><i class="fa-solid fa-feather-pointed" style="color: var(--gold-matte);"></i> ITR<span class="gold-text">SIDDHII</span></h1>
-            <span class="sub-text">Trusted Online Solutions | Ph: 9775546262</span>
+            <h1><i class="fa-solid fa-feather-pointed" style="color: var(--gold);"></i> ITRSIDDHII</h1>
+            <span class="sub-text">Helpline: 9775546262 | Automated Work Desk</span>
         </div>
         
         <div class="header-controls">
-            <select id="assessmentYear" class="ay-select" onchange="updateAYDisplay()">
-                <option value="2025-26">2025-26</option>
-                <option value="2024-25">2024-25</option>
-                <option value="2026-27">2026-27</option>
+            <select id="assessmentYear" class="ay-select" onchange="updateAY()">
+                <option value="2025-26">A.Y. 2025-26</option>
+                <option value="2024-25">A.Y. 2024-25</option>
+                <option value="2026-27">A.Y. 2026-27</option>
+                <option value="2027-28">A.Y. 2027-28</option>
             </select>
 
-            <button class="btn-action btn-save" onclick="saveVisualPDF()">
-                <i class="fa-solid fa-file-pdf"></i> Save PDF File
+            <button class="btn-action" onclick="savePdf()">
+                <i class="fa-solid fa-file-pdf"></i> Save Document PDF
             </button>
         </div>
     </header>
 
-    <div class="tabs">
-        <button class="tab-btn active"><i class="fa-solid fa-user-tie"></i> Dashboard Profile</button>
-    </div>
-
     <div class="container">
-        
         <div id="pdf-container">
 
-            <div class="pdf-branding">
+            <div class="pdf-heading">
                 <div>
-                    <h1>ITR<span style="color:var(--gold-matte)">SIDDHII</span></h1>
-                    <span style="font-size: 0.85rem; color: var(--text-light);">Financial Computing Sheet | Helpline: 9775546262</span>
+                    <h2>ITRSIDDHII</h2>
+                    <span style="font-size: 0.85rem; color: var(--text-light);">Direct Hotline: 9775546262 | Live Evaluation Sheet</span>
                 </div>
-                <div class="ay-tag" id="ay-display">A.Y. 2025-26</div>
+                <div>
+                    <span style="font-weight: bold; font-size: 1.1rem; color: var(--gold-dark);" id="ay-display">A.Y. 2025-26</span>
+                </div>
             </div>
 
             <div class="glass-box">
-                <h2><i class="fa-solid fa-address-card"></i> Proprietor Profile</h2>
+                <h3><i class="fa-solid fa-address-card"></i> Profile Particulars</h3>
                 <div class="form-grid">
-                    <div class="form-group"><label>Proprietor Name</label><input type="text" id="pName" placeholder="ENTER NAME" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div class="form-group"><label>Client Name (Proprietor)</label><input type="text" id="pName" placeholder="ENTER NAME" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="form-group"><label>PAN Number</label><input type="text" id="pPan" placeholder="ABCDE1234F" oninput="this.value = this.value.toUpperCase()"></div>
-                    <div class="form-group"><label>State/District</label><input type="text" id="pDist" placeholder="LOCATION"></div>
-                    <div class="form-group"><label>Area Locality</label><input type="text" id="pLoc" placeholder="LOCAL AREA"></div>
-                    <div class="form-group"><label>Post/Ward</label><input type="text" id="pWard" placeholder="WARD/POST"></div>
+                    <div class="form-group"><label>Village / Locality</label><input type="text" id="pLoc" placeholder="VILLAGE / STREET"></div>
+                    <div class="form-group"><label>District / Area</label><input type="text" id="pDist" placeholder="DISTRICT"></div>
+                    <div class="form-group"><label>Post / Ward</label><input type="text" id="pWard" placeholder="WARD NUMBER"></div>
                     <div class="form-group"><label>PIN Code</label><input type="text" id="pPin" placeholder="000000"></div>
                 </div>
             </div>
 
             <div class="glass-box">
-                <h2><i class="fa-solid fa-shop"></i> Trading Account Statement</h2>
+                <h3><i class="fa-solid fa-shop"></i> Trading Account</h3>
                 <table>
                     <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
                     <tbody>
-                        <tr><td>Opening Stock</td><td><input type="number" id="openingStock" value="0" oninput="recalculateAll()"></td><td>Sales Turnover</td><td><input type="number" id="sales" value="0" oninput="recalculateAll()"></td></tr>
-                        <tr><td>Net Purchase</td><td><input type="number" id="purchases" value="0" oninput="recalculateAll()"></td><td>Closing Stock</td><td><input type="number" id="closingStock" value="0" oninput="recalculateAll()"></td></tr>
-                        <tr><td>Gross Margin / Profit</td><td><input type="number" id="grossProfit" value="0" class="uneditable" readonly></td><td></td><td></td></tr>
-                        <tr class="total-row"><td>Total Operations (Dr)</td><td id="totTradDr" class="num-col">0.00</td><td>Total Operations (Cr)</td><td id="totTradCr" class="num-col">0.00</td></tr>
+                        <tr><td>To, Opening Stock</td><td><input type="number" id="openStock" value="0" oninput="recalculate()"></td><td>By, Sale</td><td><input type="number" id="sale" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>To, Purchase</td><td><input type="number" id="purchase" value="0" oninput="recalculate()"></td><td>By, Closing Stock</td><td><input type="number" id="closeStock" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>To, Gross Profit</td><td><input type="number" id="gp" value="0" class="uneditable" readonly></td><td></td><td></td></tr>
+                        <tr class="total-row"><td>Total Operations (Dr)</td><td id="tradDrTotal" class="num-col">0.00</td><td>Total Operations (Cr)</td><td id="tradCrTotal" class="num-col">0.00</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="glass-box">
-                <h2><i class="fa-solid fa-vault"></i> Balance Sheet Summary</h2>
+                <h3><i class="fa-solid fa-scale-balanced"></i> Profit & Loss Account</h3>
                 <table>
-                    <thead><tr><th>Liabilities Side</th><th class="num-col">Amount (₹)</th><th>Assets Side</th><th class="num-col">Amount (₹)</th></tr></thead>
+                    <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
                     <tbody>
-                        <tr><td>Closing Capital Fund</td><td><input type="number" id="closingCapital" value="0" class="uneditable" readonly></td><td>Consolidated Fixed Assets</td><td><input type="number" id="fixedAssets" value="0" oninput="recalculateAll()"></td></tr>
-                        <tr><td>Sundry Payables/Creditors</td><td><input type="number" id="creditors" value="0" oninput="recalculateAll()"></td><td>Opening Stock in Trade</td><td><input type="number" id="bsStock" value="0" class="uneditable" readonly></td></tr>
-                        <tr><td>Other Unsecured Liabilities</td><td><input type="number" id="liabilities" value="0" oninput="recalculateAll()"></td><td>Balance Cash / Bank Hand</td><td><input type="number" id="cashHand" value="0" oninput="recalculateAll()"></td></tr>
-                        <tr class="total-row"><td>Total Verified Liabilities</td><td id="totLiab" class="num-col">0.00</td><td>Total Verified Assets</td><td id="totAss" class="num-col">0.00</td></tr>
+                        <tr><td>To, Printing & Stationery</td><td><input type="number" id="exp1" value="0" oninput="recalculate()"></td><td>By, Gross Profit</td><td><input type="number" id="plGp" value="0" class="uneditable" readonly></td></tr>
+                        <tr><td>To, Carriage Inward</td><td><input type="number" id="exp2" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Repair & Maintenance</td><td><input type="number" id="exp3" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Postage & Telephone</td><td><input type="number" id="exp4" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Staff Salaries</td><td><input type="number" id="exp5" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Interest on Loan</td><td><input type="number" id="exp6" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Travelling & Conveyance</td><td><input type="number" id="exp7" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Accounting Charge</td><td><input type="number" id="exp8" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Shop Expenses</td><td><input type="number" id="exp9" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, General Expenses</td><td><input type="number" id="exp10" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
+                        <tr><td>To, Net Profit</td><td><input type="number" id="np" value="0" class="uneditable" readonly></td><td></td><td></td></tr>
+                        <tr class="total-row"><td>Total (Dr)</td><td id="plDrTotal" class="num-col">0.00</td><td>Total (Cr)</td><td id="plCrTotal" class="num-col">0.00</td></tr>
                     </tbody>
                 </table>
             </div>
 
-        </div>
+            <div class="glass-box">
+                <h3><i class="fa-solid fa-wallet"></i> Capital Account</h3>
+                <table>
+                    <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
+                    <tbody>
+                        <tr><td>To, Drawings</td><td><input type="number" id="drawings" value="0" oninput="recalculate()"></td><td>By, Balance b/f (Op. Cap)</td><td><input type="number" id="opCap" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>To, Balance c/d (Cl. Cap)</td><td><input type="number" id="clCap" value="0" class="uneditable" readonly></td><td>By, Profit</td><td><input type="number" id="capNp" value="0" class="uneditable" readonly></td></tr>
+                        <tr><td></td><td></td><td>By, Bank Interest</td><td><input type="number" id="bankInt" value="0" oninput="recalculate()"></td></tr>
+                        <tr class="total-row"><td>Total (Dr)</td><td id="capDrTotal" class="num-col">0.00</td><td>Total (Cr)</td><td id="capCrTotal" class="num-col">0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
 
+            <div class="glass-box">
+                <h3><i class="fa-solid fa-vault"></i> Balance Sheet Summary <span id="balanceStatus" class="status-badge" style="color: #28a745;">BALANCED</span></h3>
+                <table>
+                    <thead><tr><th>Liabilities Side</th><th class="num-col">Amount (₹)</th><th>Assets Side</th><th class="num-col">Amount (₹)</th></tr></thead>
+                    <tbody>
+                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Capital Account:</b></td><td colspan="2"><b>Fixed Assets:</b></td></tr>
+                        <tr><td>Closing Capital</td><td><input type="number" id="bsCap" value="0" class="uneditable" readonly></td><td>SHOP Establishment</td><td><input type="number" id="assetShop" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td></td><td></td><td>Fittings & Furniture</td><td><input type="number" id="assetFurn" value="0" oninput="recalculate()"></td></tr>
+
+                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Current Liabilities:</b></td><td colspan="2"><b>Current Assets:</b></td></tr>
+                        <tr><td>Sundry Creditors</td><td><input type="number" id="creditors" value="0" oninput="recalculate()"></td><td>Stock in Trade</td><td><input type="number" id="bsStock" value="0" class="uneditable" readonly></td></tr>
+                        
+                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Loan & Advances:</b></td><td>Sundry Debtors</td><td><input type="number" id="debtors" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>Loans</td><td><input type="number" id="loanLiab" value="0" oninput="recalculate()"></td><td>Cash at Bank</td><td><input type="number" id="bank" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td></td><td></td><td>Cash in Hand</td><td><input type="number" id="hand" value="0" oninput="recalculate()"></td></tr>
+
+                        <tr class="total-row"><td>Total Liabilities</td><td id="bsLiabTotal" class="num-col">0.00</td><td>Total Assets</td><td id="bsAssTotal" class="num-col">0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <div class="footer">
-        © 2026 ITRSIDDHII. Premium Client Account Reporting Protocols.
+        © 2026 ITRSIDDHII. Standardized Computation Guidelines.
     </div>
 
     <script>
-        function updateAYDisplay() {
-            const ayValue = document.getElementById('assessmentYear').value;
-            document.getElementById('ay-display').innerText = `A.Y. ${ayValue}`;
+        function updateAY() {
+            const ayVal = document.getElementById('assessmentYear').value;
+            document.getElementById('ay-display').innerText = `A.Y. ${ayVal}`;
         }
 
-        function recalculateAll() {
-            const openS = parseFloat(document.getElementById('openingStock').value) || 0;
-            const purch = parseFloat(document.getElementById('purchases').value) || 0;
-            const sales = parseFloat(document.getElementById('sales').value) || 0;
-            const closeS = parseFloat(document.getElementById('closingStock').value) || 0;
+        function recalculate() {
+            // Formula Unit 1: Trading Evaluator
+            const openStock = parseFloat(document.getElementById('openStock').value) || 0;
+            const sale = parseFloat(document.getElementById('sale').value) || 0;
+            const purchase = parseFloat(document.getElementById('purchase').value) || 0;
+            const closeStock = parseFloat(document.getElementById('closeStock').value) || 0;
 
-            const gp = (sales + closeS) - (openS + purch);
-            document.getElementById('grossProfit').value = gp;
-            document.getElementById('totTradDr').innerText = (openS + purch + gp).toFixed(2);
-            document.getElementById('totTradCr').innerText = (sales + closeS).toFixed(2);
+            const gp = (sale + closeStock) - (openStock + purchase);
+            document.getElementById('gp').value = gp;
+            document.getElementById('tradDrTotal').innerText = (openStock + purchase + gp).toFixed(2);
+            document.getElementById('tradCrTotal').innerText = (sale + closeStock).toFixed(2);
 
-            document.getElementById('bsStock').value = closeS;
+            // Formula Unit 2: P/L Evaluator
+            document.getElementById('plGp').value = gp;
+            let totalExp = 0;
+            for (let i = 1; i <= 10; i++) {
+                totalExp += parseFloat(document.getElementById(`exp${i}`).value) || 0;
+            }
+            const np = gp - totalExp;
+            document.getElementById('np').value = np;
+            document.getElementById('plDrTotal').innerText = gp.toFixed(2);
+            document.getElementById('plCrTotal').innerText = gp.toFixed(2);
 
-            const fixA = parseFloat(document.getElementById('fixedAssets').value) || 0;
-            const cred = parseFloat(document.getElementById('creditors').value) || 0;
-            const otherL = parseFloat(document.getElementById('liabilities').value) || 0;
-            const cash = parseFloat(document.getElementById('cashHand').value) || 0;
+            // Formula Unit 3: Capital and Balance forwards Evaluator
+            document.getElementById('capNp').value = np;
+            const opCap = parseFloat(document.getElementById('opCap').value) || 0;
+            const drawings = parseFloat(document.getElementById('drawings').value) || 0;
+            const bankInt = parseFloat(document.getElementById('bankInt').value) || 0;
 
-            // Auto-balance sheet calculation for active integrity 
-            const totAssets = fixA + closeS + cash;
-            const cap = totAssets - (cred + otherL);
+            const clCap = (opCap + np + bankInt) - drawings;
+            document.getElementById('clCap').value = clCap;
+            document.getElementById('capDrTotal').innerText = (clCap + drawings).toFixed(2);
+            document.getElementById('capCrTotal').innerText = (opCap + np + bankInt).toFixed(2);
 
-            document.getElementById('closingCapital').value = cap;
-            document.getElementById('totLiab').innerText = (cap + cred + otherL).toFixed(2);
-            document.getElementById('totAss').innerText = totAssets.toFixed(2);
+            // Formula Unit 4: Balance Sheet Total and Integrity Check
+            document.getElementById('bsCap').value = clCap;
+            document.getElementById('bsStock').value = closeStock;
+
+            const assetShop = parseFloat(document.getElementById('assetShop').value) || 0;
+            const assetFurn = parseFloat(document.getElementById('assetFurn').value) || 0;
+            const creditors = parseFloat(document.getElementById('creditors').value) || 0;
+            const debtors = parseFloat(document.getElementById('debtors').value) || 0;
+            const loanLiab = parseFloat(document.getElementById('loanLiab').value) || 0;
+            const bank = parseFloat(document.getElementById('bank').value) || 0;
+            const hand = parseFloat(document.getElementById('hand').value) || 0;
+
+            const totalLiabilities = clCap + creditors + loanLiab;
+            const totalAssets = assetShop + assetFurn + closeStock + debtors + bank + hand;
+
+            document.getElementById('bsLiabTotal').innerText = totalLiabilities.toFixed(2);
+            document.getElementById('bsAssTotal').innerText = totalAssets.toFixed(2);
+
+            const badge = document.getElementById('balanceStatus');
+            if (Math.abs(totalLiabilities - totalAssets) < 1) {
+                badge.innerText = "BALANCED";
+                badge.style.color = "#28a745";
+            } else {
+                badge.innerText = "UNBALANCED";
+                badge.style.color = "#dc3545";
+            }
         }
 
-        // Exact Visual Snapshot of webpage saved directly to PDF
-        function saveVisualPDF() {
-            recalculateAll();
-
-            const pName = document.getElementById('pName').value || 'Client_File';
+        function savePdf() {
+            recalculate();
+            const clientName = document.getElementById('pName').value || 'Client';
             const element = document.getElementById('pdf-container');
             
             const opt = {
-                margin:       [10, 5, 10, 5], // Top, Left, Bottom, Right
-                filename:     `ItrSiddhii_Report_${pName}.pdf`,
+                margin:       10,
+                filename:     `ItrSiddhii_Computation_${clientName}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
