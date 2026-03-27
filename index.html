@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITRSIDDHII - Premium Cloud Accounting Suite</title>
+    <title>ITRSIDDHII - Ultimate Cloud Accounting Workspace</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
-            --gold: #C5A880;
-            --gold-dark: #A68A64;
+            --primary-navy: #101E31;
+            --vibrant-gold: #C5A880;
+            --vibrant-gold-light: #F1E5D1;
             --cream-bg: #FDFBF7;
-            --glass-white: rgba(255, 255, 255, 0.95);
-            --glass-border: rgba(197, 168, 128, 0.3);
-            --text-main: #3A3532;
-            --text-light: #706361;
+            --glass-white: rgba(255, 255, 255, 0.98);
+            --glass-border: rgba(197, 168, 128, 0.45);
+            --text-main: #2C3E50;
+            --text-light: #7F8C8D;
         }
 
         * { box-sizing: border-box; }
@@ -26,193 +27,271 @@
             margin: 0;
             padding: 0;
             background-color: var(--cream-bg);
-            background-image: radial-gradient(#C5A880 0.5px, transparent 0.5px);
+            background-image: radial-gradient(var(--vibrant-gold) 0.5px, transparent 0.5px);
             background-size: 20px 20px;
             color: var(--text-main);
         }
 
-        /* Web Application Header */
+        /* Top Bar Dynamic Navigation */
         header {
-            background: rgba(253, 251, 247, 0.9);
-            backdrop-filter: blur(12px);
-            padding: 15px 30px;
+            background: var(--primary-navy);
+            color: #fff;
+            padding: 15px 35px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            box-shadow: 0 4px 15px rgba(197, 168, 128, 0.1);
+            border-bottom: 2px solid var(--vibrant-gold);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
         }
 
-        .logo-area h1 {
-            margin: 0;
-            font-size: 1.6rem;
-            color: var(--text-main);
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo-area span.sub-text {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            font-weight: 500;
-            display: block;
-            margin-top: 2px;
-        }
-
-        .header-controls {
+        .logo-area {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .ay-select {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid var(--gold);
-            background: #fff;
-            color: var(--text-main);
+        /* Stylized SVG Lotus in CSS */
+        .lotus-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #FF6B6B, #F06292);
+            clip-path: polygon(50% 0%, 80% 30%, 100% 70%, 50% 100%, 0% 70%, 20% 30%);
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .logo-area h1 {
+            margin: 0;
+            font-size: 1.75rem;
+            color: #fff;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo-area h1 span { color: var(--vibrant-gold); }
+
+        .logo-area .subheadings {
+            border-left: 2.5px solid var(--vibrant-gold);
+            padding-left: 15px;
+            margin-left: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-area .sub-text {
+            font-size: 0.88rem;
+            color: #ECEFF1;
             font-weight: 600;
+        }
+
+        .logo-area .email-tag {
+            font-size: 0.75rem;
+            color: var(--vibrant-gold);
+            margin-top: 3px;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ay-select {
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 2px solid var(--vibrant-gold);
+            background: #fff;
+            color: var(--primary-navy);
+            font-weight: 700;
             outline: none;
             cursor: pointer;
         }
 
         .btn-action {
-            padding: 11px 16px;
+            padding: 12px 18px;
             border: none;
             border-radius: 8px;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 0.9rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(166, 138, 100, 0.2);
+            box-shadow: 0 4px 12px rgba(197, 168, 128, 0.4);
             color: #fff;
-            background-color: #3A3532;
+            background: var(--vibrant-gold);
         }
 
         .btn-action:hover {
             transform: translateY(-2px);
-            opacity: 0.9;
+            background-color: var(--vibrant-gold-light);
+            color: var(--primary-navy);
         }
 
         .container {
-            padding: 25px;
-            max-width: 1200px;
+            padding: 30px;
+            max-width: 1250px;
             margin: 0 auto;
         }
 
         #pdf-container {
-            padding: 25px;
             background: var(--cream-bg);
+            padding: 20px;
+            border-radius: 12px;
         }
 
-        /* Visible Branding inside the PDF Capturing Canvas */
-        .pdf-heading {
+        /* Visceral Branding On Snapshot Canvas */
+        .pdf-header-print {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--gold);
-            padding-bottom: 15px;
-            margin-bottom: 25px;
+            border-bottom: 3px solid var(--primary-navy);
+            padding-bottom: 18px;
+            margin-bottom: 30px;
         }
 
-        .pdf-heading h2 {
+        .pdf-header-print h2 {
             margin: 0;
-            font-size: 1.8rem;
-            color: var(--text-main);
-            border: none;
-        }
-
-        .glass-box {
-            background: var(--glass-white);
-            backdrop-filter: blur(15px);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 10px 30px rgba(197, 168, 128, 0.1);
-            margin-bottom: 25px;
-            page-break-inside: avoid; /* Prevents awkward breaks in the PDF middle */
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            color: var(--text-main);
-            margin: 0 0 20px 0;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(197, 168, 128, 0.3);
+            color: var(--primary-navy);
+            font-size: 2.2rem;
+            font-weight: 800;
+            border-bottom: none;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
+        .pdf-header-print .ay-span {
+            background: var(--primary-navy);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .glass-box {
+            background: var(--glass-white);
+            backdrop-filter: blur(12px);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 12px 40px rgba(44, 62, 80, 0.1);
+            margin-bottom: 35px;
+            page-break-inside: avoid;
+        }
+
+        h3 {
+            font-size: 1.35rem;
+            color: var(--primary-navy);
+            margin: 0 0 25px 0;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(197, 168, 128, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 15px;
         }
 
         .form-group { display: flex; flex-direction: column; }
-        .form-group label { font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; color: var(--text-light); text-transform: uppercase; }
-        .form-group input { padding: 12px; border: 1px solid rgba(197, 168, 128, 0.4); border-radius: 8px; font-size: 0.95rem; background: #fff; outline: none; }
+        .form-group label { font-size: 0.75rem; font-weight: 700; margin-bottom: 6px; color: var(--text-light); text-transform: uppercase; }
+        .form-group input { padding: 12px; border: 1px solid rgba(197, 168, 128, 0.5); border-radius: 8px; font-size: 0.95rem; background: #fff; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: var(--vibrant-gold); }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             background: #fff;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
-        th, td { border: 1px solid rgba(197, 168, 128, 0.25); padding: 10px; }
-        th { background-color: #F7F3EE; font-weight: 700; text-align: left; }
-        .num-col { text-align: right; width: 140px; }
+        th, td { border: 1px solid rgba(197, 168, 128, 0.3); padding: 12px; }
+        th { background-color: #F7F3EE; color: var(--primary-navy); font-weight: 700; text-align: left; }
+        .num-col { text-align: right; width: 150px; }
+
+        /* Dynamic Visual Sliders (Input Range and Number Combo) */
+        .flex-input-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
         input[type="number"] {
             width: 100%;
-            padding: 4px;
+            padding: 6px;
             border: 1px solid transparent;
             text-align: right;
-            font-size: 0.95rem;
+            font-size: 1rem;
             outline: none;
             background: transparent;
+            font-weight: 600;
+            color: var(--primary-navy);
         }
+
         input[type="number"]:focus {
-            border-bottom: 1px solid var(--gold);
+            border-bottom: 1px solid var(--vibrant-gold);
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 5px;
+            background: #D5DBDB;
+            outline: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--vibrant-gold);
         }
 
         .uneditable {
-            background-color: #F8F6F2 !important;
+            background-color: #F4F6F6 !important;
             font-weight: 700;
-            color: var(--gold-dark);
+            color: #C0392B;
         }
 
         .total-row {
             font-weight: bold;
             background-color: #F7F3EE;
+            color: var(--primary-navy);
+            font-size: 1rem;
         }
 
         .status-badge {
-            font-weight: bold;
+            font-weight: 800;
             display: inline-block;
-            padding: 5px 10px;
-            border-radius: 6px;
-            margin-left: 10px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            margin-left: 15px;
             font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .footer {
             text-align: center;
-            padding: 20px;
-            font-size: 0.85rem;
-            color: var(--text-light);
-            background: rgba(253, 251, 247, 0.8);
-            margin-top: 20px;
-            border-top: 1px solid var(--glass-border);
+            padding: 25px;
+            font-size: 0.88rem;
+            color: #fff;
+            background: var(--primary-navy);
+            margin-top: 25px;
+            border-top: 3px solid var(--vibrant-gold);
         }
     </style>
 </head>
@@ -220,20 +299,24 @@
 
     <header>
         <div class="logo-area">
-            <h1><i class="fa-solid fa-feather-pointed" style="color: var(--gold);"></i> ITRSIDDHII</h1>
-            <span class="sub-text">Helpline: 9775546262 | Automated Work Desk</span>
+            <div class="lotus-icon"></div>
+            <h1>ITR<span>SIDDHII</span></h1>
+            
+            <div class="subheadings">
+                <span class="sub-text">A trusted online platform for ITR and GST</span>
+                <span class="email-tag"><i class="fa-solid fa-envelope"></i> support@itrsidhii.in | <i class="fa-solid fa-phone"></i> 9775546262</span>
+            </div>
         </div>
         
         <div class="header-controls">
-            <select id="assessmentYear" class="ay-select" onchange="updateAY()">
+            <select id="assessmentYear" class="ay-select" onchange="loadPresetYearData()">
                 <option value="2025-26">A.Y. 2025-26</option>
                 <option value="2024-25">A.Y. 2024-25</option>
                 <option value="2026-27">A.Y. 2026-27</option>
-                <option value="2027-28">A.Y. 2027-28</option>
             </select>
 
-            <button class="btn-action" onclick="savePdf()">
-                <i class="fa-solid fa-file-pdf"></i> Save Document PDF
+            <button class="btn-action" onclick="savePdfSnapshot()">
+                <i class="fa-solid fa-cloud-arrow-down"></i> Save Modern PDF File
             </button>
         </div>
     </header>
@@ -241,35 +324,37 @@
     <div class="container">
         <div id="pdf-container">
 
-            <div class="pdf-heading">
+            <div class="pdf-header-print">
                 <div>
-                    <h2>ITRSIDDHII</h2>
-                    <span style="font-size: 0.85rem; color: var(--text-light);">Direct Hotline: 9775546262 | Live Evaluation Sheet</span>
+                    <h2><div class="lotus-icon"></div> ITR<span style="color:var(--vibrant-gold)">SIDDHII</span></h2>
+                    <span style="font-size: 0.9rem; color: var(--text-light); font-weight: 600; margin-left:45px; display:block; margin-top:-5px;">A trusted online platform for ITR and GST | support@itrsidhii.in</span>
                 </div>
                 <div>
-                    <span style="font-weight: bold; font-size: 1.1rem; color: var(--gold-dark);" id="ay-display">A.Y. 2025-26</span>
+                    <span class="ay-span" id="ay-display">A.Y. 2025-26</span>
                 </div>
             </div>
 
             <div class="glass-box">
-                <h3><i class="fa-solid fa-address-card"></i> Profile Particulars</h3>
+                <h3><i class="fa-solid fa-address-card" style="color:var(--vibrant-gold);"></i> Profile Particulars</h3>
                 <div class="form-grid">
-                    <div class="form-group"><label>Client Name (Proprietor)</label><input type="text" id="pName" placeholder="ENTER NAME" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div class="form-group"><label>Client Name</label><input type="text" id="pName" placeholder="ENTER CLIENT NAME" oninput="this.value = this.value.toUpperCase()"></div>
                     <div class="form-group"><label>PAN Number</label><input type="text" id="pPan" placeholder="ABCDE1234F" oninput="this.value = this.value.toUpperCase()"></div>
-                    <div class="form-group"><label>Village / Locality</label><input type="text" id="pLoc" placeholder="VILLAGE / STREET"></div>
-                    <div class="form-group"><label>District / Area</label><input type="text" id="pDist" placeholder="DISTRICT"></div>
+                    <div class="form-group"><label>Locality / Street</label><input type="text" id="pLoc" placeholder="VILLAGE / LOCALITY"></div>
                     <div class="form-group"><label>Post / Ward</label><input type="text" id="pWard" placeholder="WARD NUMBER"></div>
-                    <div class="form-group"><label>PIN Code</label><input type="text" id="pPin" placeholder="000000"></div>
+                    <div class="form-group"><label>District</label><input type="text" id="pDist" placeholder="DISTRICT NAME"></div>
+                    <div class="form-group"><label>PIN Code</label><input type="text" id="pPin" placeholder="736XXX"></div>
+                    <div class="form-group"><label>State</label><input type="text" id="pState" placeholder="WEST BENGAL"></div>
+                    <div class="form-group"><label>Country</label><input type="text" id="pCountry" placeholder="INDIA"></div>
                 </div>
             </div>
 
             <div class="glass-box">
-                <h3><i class="fa-solid fa-shop"></i> Trading Account</h3>
+                <h3><i class="fa-solid fa-shop" style="color:var(--vibrant-gold);"></i> Trading Account Statement</h3>
                 <table>
                     <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
                     <tbody>
-                        <tr><td>To, Opening Stock</td><td><input type="number" id="openStock" value="0" oninput="recalculate()"></td><td>By, Sale</td><td><input type="number" id="sale" value="0" oninput="recalculate()"></td></tr>
-                        <tr><td>To, Purchase</td><td><input type="number" id="purchase" value="0" oninput="recalculate()"></td><td>By, Closing Stock</td><td><input type="number" id="closeStock" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>To, Opening Stock</td><td><div class="flex-input-box"><input type="number" id="openStock" value="0" oninput="linkSlider('openStockRange', this.value); recalculate();"><input type="range" id="openStockRange" min="0" max="1000000" step="5000" value="0" oninput="linkInput('openStock', this.value); recalculate();"></div></td><td>By, Sale</td><td><div class="flex-input-box"><input type="number" id="sale" value="0" oninput="linkSlider('saleRange', this.value); recalculate();"><input type="range" id="saleRange" min="0" max="6000000" step="10000" value="0" oninput="linkInput('sale', this.value); recalculate();"></div></td></tr>
+                        <tr><td>To, Purchase</td><td><div class="flex-input-box"><input type="number" id="purchase" value="0" oninput="linkSlider('purchaseRange', this.value); recalculate();"><input type="range" id="purchaseRange" min="0" max="5000000" step="5000" value="0" oninput="linkInput('purchase', this.value); recalculate();"></div></td><td>By, Closing Stock</td><td><div class="flex-input-box"><input type="number" id="closeStock" value="0" oninput="linkSlider('closeStockRange', this.value); recalculate();"><input type="range" id="closeStockRange" min="0" max="1000000" step="5000" value="0" oninput="linkInput('closeStock', this.value); recalculate();"></div></td></tr>
                         <tr><td>To, Gross Profit</td><td><input type="number" id="gp" value="0" class="uneditable" readonly></td><td></td><td></td></tr>
                         <tr class="total-row"><td>Total Operations (Dr)</td><td id="tradDrTotal" class="num-col">0.00</td><td>Total Operations (Cr)</td><td id="tradCrTotal" class="num-col">0.00</td></tr>
                     </tbody>
@@ -277,7 +362,7 @@
             </div>
 
             <div class="glass-box">
-                <h3><i class="fa-solid fa-scale-balanced"></i> Profit & Loss Account</h3>
+                <h3><i class="fa-solid fa-scale-balanced" style="color:var(--vibrant-gold);"></i> Profit & Loss Account</h3>
                 <table>
                     <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
                     <tbody>
@@ -292,94 +377,96 @@
                         <tr><td>To, Shop Expenses</td><td><input type="number" id="exp9" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
                         <tr><td>To, General Expenses</td><td><input type="number" id="exp10" value="0" oninput="recalculate()"></td><td></td><td></td></tr>
                         <tr><td>To, Net Profit</td><td><input type="number" id="np" value="0" class="uneditable" readonly></td><td></td><td></td></tr>
-                        <tr class="total-row"><td>Total (Dr)</td><td id="plDrTotal" class="num-col">0.00</td><td>Total (Cr)</td><td id="plCrTotal" class="num-col">0.00</td></tr>
+                        <tr class="total-row"><td>Total Expenses side (Dr)</td><td id="plDrTotal" class="num-col">0.00</td><td>Total Revenues side (Cr)</td><td id="plCrTotal" class="num-col">0.00</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="glass-box">
-                <h3><i class="fa-solid fa-wallet"></i> Capital Account</h3>
+                <h3><i class="fa-solid fa-wallet" style="color:var(--vibrant-gold);"></i> Connected Capital Account</h3>
                 <table>
                     <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
                     <tbody>
-                        <tr><td>To, Drawings</td><td><input type="number" id="drawings" value="0" oninput="recalculate()"></td><td>By, Balance b/f (Op. Cap)</td><td><input type="number" id="opCap" value="0" oninput="recalculate()"></td></tr>
-                        <tr><td>To, Balance c/d (Cl. Cap)</td><td><input type="number" id="clCap" value="0" class="uneditable" readonly></td><td>By, Profit</td><td><input type="number" id="capNp" value="0" class="uneditable" readonly></td></tr>
-                        <tr><td></td><td></td><td>By, Bank Interest</td><td><input type="number" id="bankInt" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>To, Drawings</td><td><input type="number" id="drawings" value="0" oninput="recalculate()"></td><td>By, Balance b/f (Op. Capital)</td><td><input type="number" id="opCap" value="0" class="uneditable" readonly></td></tr>
+                        <tr><td>To, Balance c/d (Cl. Capital)</td><td><input type="number" id="clCap" value="0" class="uneditable" readonly></td><td>By, Net Profit Processed</td><td><input type="number" id="capNp" value="0" class="uneditable" readonly></td></tr>
+                        <tr><td></td><td></td><td>By, Standard Bank Interest</td><td><input type="number" id="bankInt" value="0" oninput="recalculate()"></td></tr>
                         <tr class="total-row"><td>Total (Dr)</td><td id="capDrTotal" class="num-col">0.00</td><td>Total (Cr)</td><td id="capCrTotal" class="num-col">0.00</td></tr>
                     </tbody>
                 </table>
             </div>
 
             <div class="glass-box">
-                <h3><i class="fa-solid fa-vault"></i> Balance Sheet Summary <span id="balanceStatus" class="status-badge" style="color: #28a745;">BALANCED</span></h3>
+                <h3><i class="fa-solid fa-vault" style="color:var(--vibrant-gold);"></i> Balance Sheet Evaluation <span id="balanceStatus" class="status-badge" style="background-color: #E8F5E9; color: #2E7D32;">BALANCED</span></h3>
                 <table>
                     <thead><tr><th>Liabilities Side</th><th class="num-col">Amount (₹)</th><th>Assets Side</th><th class="num-col">Amount (₹)</th></tr></thead>
                     <tbody>
-                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Capital Account:</b></td><td colspan="2"><b>Fixed Assets:</b></td></tr>
-                        <tr><td>Closing Capital</td><td><input type="number" id="bsCap" value="0" class="uneditable" readonly></td><td>SHOP Establishment</td><td><input type="number" id="assetShop" value="0" oninput="recalculate()"></td></tr>
-                        <tr><td></td><td></td><td>Fittings & Furniture</td><td><input type="number" id="assetFurn" value="0" oninput="recalculate()"></td></tr>
+                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Proprietor Net Worth:</b></td><td colspan="2"><b>Business Fixed Assets:</b></td></tr>
+                        <tr><td>Derived Closing Capital</td><td><input type="number" id="bsCap" value="0" class="uneditable" readonly></td><td>Shop Establishment Assets</td><td><input type="number" id="assetShop" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td></td><td></td><td>Fittings & Furniture Assets</td><td><input type="number" id="assetFurn" value="0" oninput="recalculate()"></td></tr>
 
-                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Current Liabilities:</b></td><td colspan="2"><b>Current Assets:</b></td></tr>
-                        <tr><td>Sundry Creditors</td><td><input type="number" id="creditors" value="0" oninput="recalculate()"></td><td>Stock in Trade</td><td><input type="number" id="bsStock" value="0" class="uneditable" readonly></td></tr>
+                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Current Liabilities:</b></td><td colspan="2"><b>Current Float Assets:</b></td></tr>
+                        <tr><td>Sundry Payables/Creditors</td><td><input type="number" id="creditors" value="0" oninput="recalculate()"></td><td>Stock in Trade</td><td><input type="number" id="bsStock" value="0" class="uneditable" readonly></td></tr>
                         
-                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Loan & Advances:</b></td><td>Sundry Debtors</td><td><input type="number" id="debtors" value="0" oninput="recalculate()"></td></tr>
-                        <tr><td>Loans</td><td><input type="number" id="loanLiab" value="0" oninput="recalculate()"></td><td>Cash at Bank</td><td><input type="number" id="bank" value="0" oninput="recalculate()"></td></tr>
-                        <tr><td></td><td></td><td>Cash in Hand</td><td><input type="number" id="hand" value="0" oninput="recalculate()"></td></tr>
+                        <tr style="background-color: #fcfbfa;"><td colspan="2"><b>Debts & Overdrafts:</b></td><td>Sundry Receivables/Debtors</td><td><input type="number" id="debtors" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td>Unsecured / Long Loans</td><td><input type="number" id="loanLiab" value="0" oninput="recalculate()"></td><td>Float Cash at Bank</td><td><input type="number" id="bank" value="0" oninput="recalculate()"></td></tr>
+                        <tr><td></td><td></td><td>Floating Cash in Hand</td><td><input type="number" id="hand" value="0" oninput="recalculate()"></td></tr>
 
-                        <tr class="total-row"><td>Total Liabilities</td><td id="bsLiabTotal" class="num-col">0.00</td><td>Total Assets</td><td id="bsAssTotal" class="num-col">0.00</td></tr>
+                        <tr class="total-row"><td>Summary Liabilities</td><td id="bsLiabTotal" class="num-col">0.00</td><td>Summary Validated Assets</td><td id="bsAssTotal" class="num-col">0.00</td></tr>
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
     <div class="footer">
-        © 2026 ITRSIDDHII. Standardized Computation Guidelines.
+        © 2026 ITRSIDDHII. Standardized Computation Guidelines and Audited Evaluations.
     </div>
 
     <script>
+        // Dual directional linkers for live slider usage
+        function linkSlider(sliderId, val) {
+            document.getElementById(sliderId).value = val;
+        }
+
+        function linkInput(inputId, val) {
+            document.getElementById(inputId).value = val;
+        }
+
         function updateAY() {
             const ayVal = document.getElementById('assessmentYear').value;
             document.getElementById('ay-display').innerText = `A.Y. ${ayVal}`;
         }
 
+        // Complete Accounting Integration Cycle (Identity lock formula)
         function recalculate() {
-            // Formula Unit 1: Trading Evaluator
+            // A. Compute Trading
             const openStock = parseFloat(document.getElementById('openStock').value) || 0;
             const sale = parseFloat(document.getElementById('sale').value) || 0;
             const purchase = parseFloat(document.getElementById('purchase').value) || 0;
             const closeStock = parseFloat(document.getElementById('closeStock').value) || 0;
 
             const gp = (sale + closeStock) - (openStock + purchase);
-            document.getElementById('gp').value = gp;
+            document.getElementById('gp').value = gp.toFixed(2);
             document.getElementById('tradDrTotal').innerText = (openStock + purchase + gp).toFixed(2);
             document.getElementById('tradCrTotal').innerText = (sale + closeStock).toFixed(2);
 
-            // Formula Unit 2: P/L Evaluator
-            document.getElementById('plGp').value = gp;
+            // B. Compute P&L
+            document.getElementById('plGp').value = gp.toFixed(2);
             let totalExp = 0;
             for (let i = 1; i <= 10; i++) {
                 totalExp += parseFloat(document.getElementById(`exp${i}`).value) || 0;
             }
             const np = gp - totalExp;
-            document.getElementById('np').value = np;
+            document.getElementById('np').value = np.toFixed(2);
             document.getElementById('plDrTotal').innerText = gp.toFixed(2);
             document.getElementById('plCrTotal').innerText = gp.toFixed(2);
 
-            // Formula Unit 3: Capital and Balance forwards Evaluator
-            document.getElementById('capNp').value = np;
-            const opCap = parseFloat(document.getElementById('opCap').value) || 0;
-            const drawings = parseFloat(document.getElementById('drawings').value) || 0;
-            const bankInt = parseFloat(document.getElementById('bankInt').value) || 0;
+            // Forward Net profit
+            document.getElementById('capNp').value = np.toFixed(2);
 
-            const clCap = (opCap + np + bankInt) - drawings;
-            document.getElementById('clCap').value = clCap;
-            document.getElementById('capDrTotal').innerText = (clCap + drawings).toFixed(2);
-            document.getElementById('capCrTotal').innerText = (opCap + np + bankInt).toFixed(2);
-
-            // Formula Unit 4: Balance Sheet Total and Integrity Check
-            document.getElementById('bsCap').value = clCap;
-            document.getElementById('bsStock').value = closeStock;
+            // C. Auto Compute Balance Sheet Lock & Net worth
+            document.getElementById('bsStock').value = closeStock.toFixed(2);
 
             const assetShop = parseFloat(document.getElementById('assetShop').value) || 0;
             const assetFurn = parseFloat(document.getElementById('assetFurn').value) || 0;
@@ -389,8 +476,26 @@
             const bank = parseFloat(document.getElementById('bank').value) || 0;
             const hand = parseFloat(document.getElementById('hand').value) || 0;
 
-            const totalLiabilities = clCap + creditors + loanLiab;
             const totalAssets = assetShop + assetFurn + closeStock + debtors + bank + hand;
+            const nonCapitalLiab = creditors + loanLiab;
+            
+            // Closing capital directly calculated via standard asset identity: Cl.Cap = Tot Assets - Out.Liabilities
+            const clCap = totalAssets - nonCapitalLiab;
+
+            document.getElementById('clCap').value = clCap.toFixed(2);
+            document.getElementById('bsCap').value = clCap.toFixed(2);
+
+            // Back-calculating Opening Capital: OpCap = ClCap - NP - BankInt + Drawings
+            const drawings = parseFloat(document.getElementById('drawings').value) || 0;
+            const bankInt = parseFloat(document.getElementById('bankInt').value) || 0;
+            const opCap = clCap - np - bankInt + drawings;
+
+            document.getElementById('opCap').value = opCap.toFixed(2);
+            document.getElementById('capDrTotal').innerText = (clCap + drawings).toFixed(2);
+            document.getElementById('capCrTotal').innerText = (opCap + np + bankInt).toFixed(2);
+
+            // Total integrity check
+            const totalLiabilities = clCap + nonCapitalLiab;
 
             document.getElementById('bsLiabTotal').innerText = totalLiabilities.toFixed(2);
             document.getElementById('bsAssTotal').innerText = totalAssets.toFixed(2);
@@ -398,28 +503,45 @@
             const badge = document.getElementById('balanceStatus');
             if (Math.abs(totalLiabilities - totalAssets) < 1) {
                 badge.innerText = "BALANCED";
-                badge.style.color = "#28a745";
+                badge.style.backgroundColor = "#E8F5E9";
+                badge.style.color = "#2E7D32";
             } else {
                 badge.innerText = "UNBALANCED";
-                badge.style.color = "#dc3545";
+                badge.style.backgroundColor = "#FDEDEC";
+                badge.style.color = "#C0392B";
             }
         }
 
-        function savePdf() {
+        // Visually pulls standard metrics when changing toggle selection
+        function loadPresetYearData() {
+            updateAY();
+            // Resets all slider to zero out defaults for a brand new computation!
+            const resetFields = ["openStock","sale","purchase","closeStock","exp1","exp2","exp3","exp4","exp5","exp6","exp7","exp8","exp9","exp10","drawings","bankInt","assetShop","assetFurn","creditors","debtors","loanLiab","bank","hand"];
+            resetFields.forEach(id => {
+                document.getElementById(id).value = 0;
+                const range = document.getElementById(id + "Range");
+                if(range) range.value = 0;
+            });
             recalculate();
-            const clientName = document.getElementById('pName').value || 'Client';
+        }
+
+        function savePdfSnapshot() {
+            recalculate();
+            const clientName = document.getElementById('pName').value || 'Client_Computation';
             const element = document.getElementById('pdf-container');
             
             const opt = {
-                margin:       10,
-                filename:     `ItrSiddhii_Computation_${clientName}.pdf`,
+                margin:       [8, 4, 8, 4], // Symmetrical beautiful borders
+                filename:     `ItrSiddhii_Sheet_${clientName}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2.5, useCORS: true, letterRendering: true }, // Crisp HD quality
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().from(element).set(opt).save();
         }
+
+        window.onload = recalculate;
     </script>
 </body>
 </html>
