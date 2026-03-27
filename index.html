@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAXTYARI - Complete Cloud Accounting Suite</title>
+    <title>ITRSIDDHII - Premium Cloud Accounting Suite</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
@@ -14,7 +13,7 @@
             --gold-matte: #C5A880;
             --gold-dark: #A68A64;
             --cream-bg: #FDFBF7;
-            --glass-white: rgba(255, 255, 255, 0.85);
+            --glass-white: rgba(255, 255, 255, 0.95);
             --glass-border: rgba(197, 168, 128, 0.3);
             --text-main: #3A3532;
             --text-light: #706361;
@@ -33,7 +32,7 @@
         }
 
         header {
-            background: rgba(253, 251, 247, 0.85);
+            background: rgba(253, 251, 247, 0.9);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             padding: 15px 30px;
@@ -98,7 +97,6 @@
             color: #fff;
         }
 
-        .btn-print { background-color: var(--gold-matte); }
         .btn-save { background-color: #3A3532; }
 
         .btn-action:hover {
@@ -135,37 +133,61 @@
             box-shadow: 0 -3px 10px rgba(197, 168, 128, 0.1);
         }
 
+        /* Outer Container for spacing & alignment */
         .container {
             padding: 25px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .tab-content {
-            display: none;
+        /* Inner container used for the exact PDF export */
+        #pdf-container {
+            padding: 20px;
+            background: var(--cream-bg);
+        }
+
+        /* Visible Branding inside PDF Sheet */
+        .pdf-branding {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--gold-matte);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+
+        .pdf-branding h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text-main);
+        }
+
+        .pdf-branding .ay-tag {
+            background: var(--gold-matte);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        .glass-box {
             background: var(--glass-white);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            padding: 35px;
-            border-radius: 15px;
+            padding: 30px;
+            border-radius: 12px;
             border: 1px solid var(--glass-border);
             box-shadow: 0 10px 30px rgba(197, 168, 128, 0.1);
-            animation: slideUp 0.3s ease;
-        }
-
-        .tab-content.active { display: block; }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            margin-bottom: 25px;
+            page-break-inside: avoid; /* Keeps sections intact on multi-page PDF */
         }
 
         h2 {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: var(--text-main);
-            margin: 0 0 25px 0;
-            padding-bottom: 12px;
-            border-bottom: 2px solid rgba(197, 168, 128, 0.3);
+            margin: 0 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(197, 168, 128, 0.3);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -178,24 +200,25 @@
         }
 
         .form-group { display: flex; flex-direction: column; }
-        .form-group label { font-size: 0.8rem; font-weight: 600; margin-bottom: 6px; color: var(--text-light); text-transform: uppercase; }
+        .form-group label { font-size: 0.75rem; font-weight: 600; margin-bottom: 6px; color: var(--text-light); text-transform: uppercase; }
         .form-group input { padding: 12px; border: 1px solid rgba(197, 168, 128, 0.4); border-radius: 8px; font-size: 0.95rem; background: #fff; outline: none; }
 
         table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.88rem;
-            margin-bottom: 25px;
             background: #fff;
-            border-radius: 12px;
+            border-radius: 8px;
             overflow: hidden;
+            margin-bottom: 10px;
         }
 
-        th, td { border: 1px solid rgba(197, 168, 128, 0.2); padding: 12px; }
-        th { background-color: #F7F3EE; font-weight: 700; }
-        .num-col { text-align: right; width: 150px; }
+        th, td { border: 1px solid rgba(197, 168, 128, 0.25); padding: 12px; }
+        th { background-color: #F7F3EE; font-weight: 700; text-align: left; }
+        .num-col { text-align: right; width: 140px; }
 
-        input[type="number"] { width: 100%; padding: 6px; border: 1px solid transparent; text-align: right; font-size: 0.95rem; outline: none; background: transparent; }
+        input[type="number"] { width: 100%; padding: 4px; border: 1px solid transparent; text-align: right; font-size: 0.95rem; outline: none; background: transparent; }
+        input[type="number"]:focus { border-bottom: 1px solid var(--gold-matte); }
 
         .uneditable { background-color: #F8F6F2 !important; font-weight: 700; color: var(--gold-dark); }
         .total-row { font-weight: bold; background-color: #F7F3EE; }
@@ -215,81 +238,89 @@
 
     <header>
         <div class="logo-area">
-            <h1><i class="fa-solid fa-feather-pointed" style="color: var(--gold-matte);"></i> TAX<span class="gold-text">TYARI</span></h1>
+            <h1><i class="fa-solid fa-feather-pointed" style="color: var(--gold-matte);"></i> ITR<span class="gold-text">SIDDHII</span></h1>
             <span class="sub-text">Trusted Online Solutions | Ph: 9775546262</span>
         </div>
         
         <div class="header-controls">
-            <select id="assessmentYear" class="ay-select">
+            <select id="assessmentYear" class="ay-select" onchange="updateAYDisplay()">
                 <option value="2025-26">2025-26</option>
                 <option value="2024-25">2024-25</option>
                 <option value="2026-27">2026-27</option>
             </select>
 
-            <button class="btn-action btn-save" onclick="saveDirectPDF()">
-                <i class="fa-solid fa-download"></i> Save PDF File
-            </button>
-
-            <button class="btn-action btn-print" onclick="forceCleanBypassPrint()">
-                <i class="fa-solid fa-print"></i> Print View
+            <button class="btn-action btn-save" onclick="saveVisualPDF()">
+                <i class="fa-solid fa-file-pdf"></i> Save PDF File
             </button>
         </div>
     </header>
 
     <div class="tabs">
-        <button id="btn-profile" class="tab-btn active" onclick="switchTab('profile')"><i class="fa-solid fa-user-tie"></i> Profile</button>
-        <button id="btn-trading" class="tab-btn" onclick="switchTab('trading')"><i class="fa-solid fa-scale-balanced"></i> Statement</button>
+        <button class="tab-btn active"><i class="fa-solid fa-user-tie"></i> Dashboard Profile</button>
     </div>
 
-    <div class="container" id="pdf-container">
+    <div class="container">
+        
+        <div id="pdf-container">
 
-        <div class="glass-box">
-            <h2><i class="fa-solid fa-address-card"></i> Proprietor and Profile</h2>
-            <div class="form-grid">
-                <div class="form-group"><label>Name</label><input type="text" id="pName" value="TUTUL RAY" oninput="this.value = this.value.toUpperCase()"></div>
-                <div class="form-group"><label>PAN</label><input type="text" id="pPan" value="CLLPR2996G" oninput="this.value = this.value.toUpperCase()"></div>
-                <div class="form-group"><label>District</label><input type="text" id="pDist" value="Cooch Behar"></div>
-                <div class="form-group"><label>Locality</label><input type="text" id="pLoc" value="Chhoto Dhaperchatra"></div>
-                <div class="form-group"><label>Ward</label><input type="text" id="pWard" value="Gossairhat Bandar"></div>
-                <div class="form-group"><label>PIN</label><input type="text" id="pPin" value="736121"></div>
+            <div class="pdf-branding">
+                <div>
+                    <h1>ITR<span style="color:var(--gold-matte)">SIDDHII</span></h1>
+                    <span style="font-size: 0.85rem; color: var(--text-light);">Financial Computing Sheet | Helpline: 9775546262</span>
+                </div>
+                <div class="ay-tag" id="ay-display">A.Y. 2025-26</div>
             </div>
-        </div>
 
-        <div class="glass-box">
-            <h2><i class="fa-solid fa-shop"></i> Trading Account</h2>
-            <table>
-                <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
-                <tbody>
-                    <tr><td>Opening Stock</td><td><input type="number" id="openingStock" value="337500" oninput="recalculateAll()"></td><td>Sales</td><td><input type="number" id="sales" value="2250000" oninput="recalculateAll()"></td></tr>
-                    <tr><td>Purchase</td><td><input type="number" id="purchases" value="1845000" oninput="recalculateAll()"></td><td>Closing Stock</td><td><input type="number" id="closingStock" value="382500" oninput="recalculateAll()"></td></tr>
-                    <tr><td>Gross Profit</td><td><input type="number" id="grossProfit" value="450000" class="uneditable" readonly></td><td></td><td></td></tr>
-                    <tr class="total-row"><td>Total</td><td id="totTradDr" class="num-col">2632500.00</td><td>Total</td><td id="totTradCr" class="num-col">2632500.00</td></tr>
-                </tbody>
-            </table>
-        </div>
+            <div class="glass-box">
+                <h2><i class="fa-solid fa-address-card"></i> Proprietor Profile</h2>
+                <div class="form-grid">
+                    <div class="form-group"><label>Proprietor Name</label><input type="text" id="pName" placeholder="ENTER NAME" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div class="form-group"><label>PAN Number</label><input type="text" id="pPan" placeholder="ABCDE1234F" oninput="this.value = this.value.toUpperCase()"></div>
+                    <div class="form-group"><label>State/District</label><input type="text" id="pDist" placeholder="LOCATION"></div>
+                    <div class="form-group"><label>Area Locality</label><input type="text" id="pLoc" placeholder="LOCAL AREA"></div>
+                    <div class="form-group"><label>Post/Ward</label><input type="text" id="pWard" placeholder="WARD/POST"></div>
+                    <div class="form-group"><label>PIN Code</label><input type="text" id="pPin" placeholder="000000"></div>
+                </div>
+            </div>
 
-        <div class="glass-box">
-            <h2><i class="fa-solid fa-vault"></i> Balance Sheet Overview</h2>
-            <table>
-                <thead><tr><th>Liabilities</th><th class="num-col">Amount (₹)</th><th>Assets</th><th class="num-col">Amount (₹)</th></tr></thead>
-                <tbody>
-                    <tr><td>Closing Capital</td><td><input type="number" id="closingCapital" value="593244" class="uneditable" readonly></td><td>Fixed Assets</td><td><input type="number" id="fixedAssets" value="148200" oninput="recalculateAll()"></td></tr>
-                    <tr><td>Sundry Creditors</td><td><input type="number" id="creditors" value="0" oninput="recalculateAll()"></td><td>Stock in Trade</td><td><input type="number" id="bsStock" value="382500" class="uneditable" readonly></td></tr>
-                    <tr><td>Liabilities</td><td><input type="number" id="liabilities" value="0" oninput="recalculateAll()"></td><td>Cash at Hand & Bank</td><td><input type="number" id="cashHand" value="48664" oninput="recalculateAll()"></td></tr>
-                    <tr class="total-row"><td>Total Liabilities</td><td id="totLiab" class="num-col">593244.00</td><td>Total Assets</td><td id="totAss" class="num-col">593244.00</td></tr>
-                </tbody>
-            </table>
+            <div class="glass-box">
+                <h2><i class="fa-solid fa-shop"></i> Trading Account Statement</h2>
+                <table>
+                    <thead><tr><th>Particulars</th><th class="num-col">Amount (₹)</th><th>Particulars</th><th class="num-col">Amount (₹)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Opening Stock</td><td><input type="number" id="openingStock" value="0" oninput="recalculateAll()"></td><td>Sales Turnover</td><td><input type="number" id="sales" value="0" oninput="recalculateAll()"></td></tr>
+                        <tr><td>Net Purchase</td><td><input type="number" id="purchases" value="0" oninput="recalculateAll()"></td><td>Closing Stock</td><td><input type="number" id="closingStock" value="0" oninput="recalculateAll()"></td></tr>
+                        <tr><td>Gross Margin / Profit</td><td><input type="number" id="grossProfit" value="0" class="uneditable" readonly></td><td></td><td></td></tr>
+                        <tr class="total-row"><td>Total Operations (Dr)</td><td id="totTradDr" class="num-col">0.00</td><td>Total Operations (Cr)</td><td id="totTradCr" class="num-col">0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="glass-box">
+                <h2><i class="fa-solid fa-vault"></i> Balance Sheet Summary</h2>
+                <table>
+                    <thead><tr><th>Liabilities Side</th><th class="num-col">Amount (₹)</th><th>Assets Side</th><th class="num-col">Amount (₹)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Closing Capital Fund</td><td><input type="number" id="closingCapital" value="0" class="uneditable" readonly></td><td>Consolidated Fixed Assets</td><td><input type="number" id="fixedAssets" value="0" oninput="recalculateAll()"></td></tr>
+                        <tr><td>Sundry Payables/Creditors</td><td><input type="number" id="creditors" value="0" oninput="recalculateAll()"></td><td>Opening Stock in Trade</td><td><input type="number" id="bsStock" value="0" class="uneditable" readonly></td></tr>
+                        <tr><td>Other Unsecured Liabilities</td><td><input type="number" id="liabilities" value="0" oninput="recalculateAll()"></td><td>Balance Cash / Bank Hand</td><td><input type="number" id="cashHand" value="0" oninput="recalculateAll()"></td></tr>
+                        <tr class="total-row"><td>Total Verified Liabilities</td><td id="totLiab" class="num-col">0.00</td><td>Total Verified Assets</td><td id="totAss" class="num-col">0.00</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
         </div>
 
     </div>
 
     <div class="footer">
-        © 2026 TAXTYARI. Handled with verified data accuracy and security.
+        © 2026 ITRSIDDHII. Premium Client Account Reporting Protocols.
     </div>
 
     <script>
-        function switchTab(tabId) {
-            // Placeholder for tab toggling logic if required by separate tab content
+        function updateAYDisplay() {
+            const ayValue = document.getElementById('assessmentYear').value;
+            document.getElementById('ay-display').innerText = `A.Y. ${ayValue}`;
         }
 
         function recalculateAll() {
@@ -309,100 +340,32 @@
             const cred = parseFloat(document.getElementById('creditors').value) || 0;
             const otherL = parseFloat(document.getElementById('liabilities').value) || 0;
             const cash = parseFloat(document.getElementById('cashHand').value) || 0;
-            const cap = parseFloat(document.getElementById('closingCapital').value) || 0;
 
+            // Auto-balance sheet calculation for active integrity 
+            const totAssets = fixA + closeS + cash;
+            const cap = totAssets - (cred + otherL);
+
+            document.getElementById('closingCapital').value = cap;
             document.getElementById('totLiab').innerText = (cap + cred + otherL).toFixed(2);
-            document.getElementById('totAss').innerText = (fixA + closeS + cash).toFixed(2);
+            document.getElementById('totAss').innerText = totAssets.toFixed(2);
         }
 
-        // 🌟 FEATURE 1: DIRECT DOWNLOAD TO FILE 🌟
-        function saveDirectPDF() {
+        // Exact Visual Snapshot of webpage saved directly to PDF
+        function saveVisualPDF() {
             recalculateAll();
 
-            const pName = document.getElementById('pName').value || 'Report';
+            const pName = document.getElementById('pName').value || 'Client_File';
             const element = document.getElementById('pdf-container');
             
             const opt = {
-                margin:       10,
-                filename:     `TaxTyari_${pName}.pdf`,
+                margin:       [10, 5, 10, 5], // Top, Left, Bottom, Right
+                filename:     `ItrSiddhii_Report_${pName}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
-            // Triggers immediate file download
             html2pdf().from(element).set(opt).save();
-        }
-
-        // 🌟 FEATURE 2: PRINT BYPASS 🌟
-        function forceCleanBypassPrint() {
-            recalculateAll();
-
-            const ay = document.getElementById('assessmentYear').value;
-            const pName = document.getElementById('pName').value;
-            const pPan = document.getElementById('pPan').value;
-            const pLoc = document.getElementById('pLoc').value;
-            const pWard = document.getElementById('pWard').value;
-            const pDist = document.getElementById('pDist').value;
-            const pPin = document.getElementById('pPin').value;
-
-            const openS = document.getElementById('openingStock').value;
-            const purch = document.getElementById('purchases').value;
-            const sales = document.getElementById('sales').value;
-            const closeS = document.getElementById('closingStock').value;
-            const gp = document.getElementById('grossProfit').value;
-
-            const closingCap = document.getElementById('closingCapital').value;
-            const totAss = document.getElementById('totAss').innerText;
-
-            const printHTML = `
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <style>
-                    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; box-sizing: border-box; }
-                    body { font-family: 'Segoe UI', Arial, sans-serif; background: #FDFBF7 !important; padding: 20px; color: #3A3532; margin: 0; }
-                    .page-canvas { max-width: 800px; margin: 0 auto; background: #FFF !important; padding: 25px; border-radius: 12px; border: 1px solid #C5A880 !important; position: relative; }
-                    .p-header { border-bottom: 2px solid #C5A880 !important; padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-                    table { width: 100%; border-collapse: collapse; margin-bottom: 15px; font-size: 11.5px; position: relative; background: #FFF !important; }
-                    th, td { border: 1px solid rgba(197, 168, 128, 0.4) !important; padding: 7px 10px; }
-                    th { background-color: #F7F3EE !important; font-weight: bold; text-transform: uppercase; }
-                    .num { text-align: right; width: 130px; }
-                    .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 100px; font-weight: 900; color: rgba(197, 168, 128, 0.04) !important; z-index: 0; }
-                </style>
-            </head>
-            <body>
-                <div class="page-canvas">
-                    <div class="watermark">TAXTYARI</div>
-                    <div class="p-header">
-                        <div><h1 style="margin:0; font-size:22px;">TAX<span style="color:#C5A880;">TYARI</span> REPORT</h1></div>
-                        <div style="font-weight: bold;">A.Y.: ${ay}</div>
-                    </div>
-                    <table>
-                        <tr><td>Proprietor Name</td><td>${pName}</td><td>PAN Number</td><td>${pPan}</td></tr>
-                        <tr><td>Locality</td><td>${pLoc}</td><td>District</td><td>${pDist} - ${pPin}</td></tr>
-                    </table>
-                    <h3>Statement Overview</h3>
-                    <table>
-                        <thead><tr><th>Metric</th><th class="num">Amount (₹)</th></tr></thead>
-                        <tbody>
-                            <tr><td>Calculated Gross Profit</td><td class="num">${parseFloat(gp).toLocaleString('en-IN')}</td></tr>
-                            <tr><td>Adjusted Closing Capital</td><td class="num">${parseFloat(closingCap).toLocaleString('en-IN')}</td></tr>
-                            <tr><td>Total Assets Combined</td><td class="num">${parseFloat(totAss).toLocaleString('en-IN')}</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-                <script>
-                    window.onload = function() { setTimeout(() => { window.print(); }, 600); };
-                <\/script>
-            </body>
-            </html>`;
-
-            const printWindow = window.open('', '_blank');
-            printWindow.document.open();
-            printWindow.document.write(printHTML);
-            printWindow.document.close();
         }
     </script>
 </body>
