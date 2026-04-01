@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITR Siddhii — Balance Sheet Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0a2540;--blue:#1a56a0;--sky:#2e86de;--sky2:#74b9ff;--sky3:#ddeeff;--sky4:#f0f8ff;
+  --glass:rgba(255,255,255,0.82);--border:rgba(26,86,160,0.15);--borderM:rgba(26,86,160,0.3);
+  --text:#0a2540;--muted:#5a7fa8;--green:#0d6e3f;--red:#b91c1c;--gold:#b8860b;--goldL:#f5e6a3;
+  --sidebar:255px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'DM Sans',sans-serif;color:var(--text)}
+body{background:linear-gradient(140deg,#c8e0f8 0%,#e8f4ff 35%,#f5faff 65%,#cce3f5 100%);display:flex;min-height:100vh}
+input[type=number]::-webkit-inner-spin-button{display:none}
+
+/* ─ SIDEBAR ─ */
+.sb{width:var(--sidebar);min-height:100vh;background:linear-gradient(180deg,var(--navy) 0%,#0e3260 55%,#091e3e 100%);display:flex;flex-direction:column;position:fixed;left:0;top:0;z-index:100;box-shadow:3px 0 20px rgba(0,0,0,.35)}
+.sb-logo{padding:18px 16px 14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.sb-brand{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:700;color:#fff;letter-spacing:.2px;line-height:1.1}
+.sb-tagline{font-size:9px;color:rgba(255,255,255,.42);letter-spacing:.8px;margin-top:2px}
+.sb-contact{padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-contact a{display:block;font-size:9.5px;color:var(--sky2);text-decoration:none;margin-bottom:1px;transition:.2s}
+.sb-contact a:hover{color:#fff}
+.sb-profile{padding:10px 14px 8px;border-bottom:1px solid rgba(255,255,255,.08);cursor:pointer}
+.sb-avatar{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--sky),var(--sky2));display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;margin-bottom:6px}
+.sb-pname{font-size:11.5px;font-weight:600;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sb-ppan{font-size:9.5px;color:rgba(255,255,255,.4)}
+.sb-switch{font-size:9px;color:var(--sky2);margin-top:3px}
+.sb-ay{padding:8px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-ay label{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:.8px;text-transform:uppercase;display:block;margin-bottom:5px}
+.ay-slider-wrap{position:relative}
+.ay-track{display:flex;gap:0;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.15)}
+.ay-opt{flex:1;text-align:center;padding:4px 2px;font-size:9px;color:rgba(255,255,255,.45);cursor:pointer;transition:.2s;user-select:none}
+.ay-opt:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.8)}
+.ay-opt.active{background:var(--sky);color:#fff;font-weight:700}
+.ay-fy{font-size:9px;color:rgba(255,255,255,.35);margin-top:4px;text-align:center}
+nav{flex:1;padding:8px 0}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 16px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.58);cursor:pointer;transition:.2s;border-left:3px solid transparent;user-select:none}
+.ni:hover{background:rgba(255,255,255,.07);color:#fff}
+.ni.active{background:rgba(255,255,255,.12);color:#fff;border-left-color:var(--sky2)}
+.ni .ic{font-size:14px;width:18px;text-align:center}
+.sb-footer{padding:12px 14px;border-top:1px solid rgba(255,255,255,.08);font-size:9px;color:rgba(255,255,255,.25);line-height:1.5}
+
+/* ─ MAIN ─ */
+.main{margin-left:var(--sidebar);flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:10px 22px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.tb-title{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:600;color:var(--navy)}
+.tb-acts{display:flex;gap:7px;align-items:center}
+.btn{padding:7px 16px;border-radius:25px;border:1.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:11.5px;font-weight:600;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-ghost{background:var(--glass);color:var(--navy)}
+.btn-ghost:hover{background:var(--sky3);border-color:var(--sky2)}
+.btn-blue{background:var(--blue);color:#fff;border-color:#1244800}
+.btn-blue:hover{background:var(--navy)}
+.btn-gold{background:linear-gradient(135deg,#c9a227,#e8c547);color:#3a2a00;border-color:#b8960b;font-weight:700}
+.btn-gold:hover{background:linear-gradient(135deg,#b8960b,#d4b430)}
+.btn-green{background:linear-gradient(135deg,#0d6e3f,#1a9e5e);color:#fff;border-color:#0a5530}
+.btn-green:hover{background:#0a5530}
+.btn-sm{padding:5px 12px;font-size:10.5px}
+
+.content{flex:1;padding:18px 22px;overflow-y:auto}
+.page{display:none}.page.active{display:block}
+
+/* ─ CARDS ─ */
+.card{background:var(--glass);backdrop-filter:blur(14px);border:1.5px solid rgba(255,255,255,.75);border-radius:14px;box-shadow:0 4px 18px rgba(26,86,160,.09),inset 0 1px 0 rgba(255,255,255,.9);margin-bottom:12px;overflow:hidden}
+.ch{background:linear-gradient(90deg,var(--navy) 0%,var(--blue) 100%);color:#fff;padding:7px 18px;font-size:9.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;display:flex;align-items:center;justify-content:space-between}
+
+/* ─ ENTITY HEADER ─ */
+.ent-hdr{text-align:center;padding:14px 24px 10px;background:linear-gradient(180deg,rgba(204,227,245,.45),rgba(255,255,255,.2));border-bottom:1px solid var(--border)}
+.ent-name{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--navy)}
+.ent-sub{font-size:10.5px;color:var(--muted);margin-top:2px}
+.ent-pan{font-size:11px;font-weight:600;color:var(--blue);margin-top:2px}
+.info-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border)}
+.ic2{padding:7px 16px;border-right:1px solid var(--border)}
+.ic2:last-child{border-right:none}
+.il{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
+.iv{font-size:12px;font-weight:600;color:var(--navy);margin-top:1px}
+.iv input{border:none;background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;color:var(--navy);outline:none;width:100%}
+.iv input:focus{background:rgba(26,86,160,.06);border-radius:3px}
+.assm-bar{padding:8px 16px;background:rgba(204,227,245,.2);border-bottom:1px solid var(--border);display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.aitem{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--navy)}
+.aitem label{font-size:9.5px;color:var(--muted)}
+.aitem input[type=number]{width:58px;padding:3px 7px;border:1.5px solid var(--sky3);border-radius:7px;font-size:11.5px;font-weight:700;color:var(--blue);background:rgba(255,255,255,.8);text-align:right;outline:none;font-family:'DM Sans',sans-serif}
+.aitem input:focus{border-color:var(--sky);box-shadow:0 0 0 2px rgba(46,134,222,.15)}
+.tags{margin-left:auto;display:flex;gap:6px}
+.tag{font-size:9px;padding:2px 9px;border-radius:20px;font-weight:700;letter-spacing:.3px}
+.tag-g{background:#dcfce7;color:#15803d}.tag-b{background:var(--sky3);color:var(--navy)}.tag-gold{background:var(--goldL);color:#7a5800}
+
+/* ─ TABLES ─ */
+.dual{display:grid;grid-template-columns:1fr 1fr}
+.dc{border-right:1px solid var(--border)}
+.dc:last-child{border-right:none}
+table{width:100%;border-collapse:collapse}
+th{background:rgba(26,86,160,.08);color:var(--navy);font-size:9.5px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;padding:6px 12px;border-bottom:1.5px solid var(--sky3)}
+td{padding:4px 12px;border-bottom:1px solid rgba(26,86,160,.05);font-size:11.5px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(26,86,160,.025)}
+.tr-tot td{border-top:1.5px solid var(--blue);border-bottom:2px double var(--blue)!important;font-weight:700;background:rgba(26,86,160,.07)!important;color:var(--navy)}
+.tr-p td{color:var(--green);font-weight:600}
+.tr-s td{background:rgba(26,86,160,.04)!important;font-weight:700;font-size:9.5px;color:var(--navy);letter-spacing:.5px;text-transform:uppercase;padding:4px 12px 3px}
+.amt{text-align:right;min-width:85px;font-variant-numeric:tabular-nums}
+.ed{border:none;background:transparent;font-family:'DM Sans',sans-serif;color:var(--text);width:100%;outline:none;font-size:inherit;font-weight:inherit}
+.ed:focus{background:rgba(26,86,160,.07);border-radius:3px;padding:1px 3px}
+.ed-r{text-align:right}
+.del{background:none;border:none;color:rgba(185,28,28,.3);cursor:pointer;font-size:12px;padding:0 2px;line-height:1;transition:.2s}
+.del:hover{color:var(--red)}
+.add-btn{background:none;border:1px dashed var(--sky3);color:var(--muted);font-size:10.5px;padding:4px 12px;border-radius:20px;cursor:pointer;margin:5px 12px;transition:.2s;font-family:'DM Sans',sans-serif}
+.add-btn:hover{background:rgba(26,86,160,.07);color:var(--blue);border-color:var(--sky2)}
+.bal-check{padding:7px 18px;display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;border-top:1px solid var(--border)}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ok{color:var(--green)}.fail{color:var(--red)}
+.dok{background:var(--green)}.dfail{background:var(--red)}
+.auto-bal-btn{margin-left:auto;padding:4px 14px;border-radius:20px;border:1.5px solid var(--green);background:rgba(13,110,63,.08);color:var(--green);font-size:10.5px;font-weight:700;cursor:pointer;transition:.2s;font-family:'DM Sans',sans-serif}
+.auto-bal-btn:hover{background:var(--green);color:#fff}
+
+/* ─ ITR GRID ─ */
+.itr-g{display:grid;grid-template-columns:repeat(3,1fr)}
+.itr-c{padding:8px 16px;border-right:1px solid var(--border);border-bottom:1px solid rgba(26,86,160,.05)}
+.itr-c:nth-child(3n){border-right:none}
+.itr-l{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.itr-v{font-size:14px;font-weight:700;color:var(--navy);margin-top:2px}
+.itr-c.grn .itr-v{color:var(--green)}
+.itr-c.blu .itr-v{color:var(--blue)}
+.itr-note{padding:7px 16px;font-size:10px;color:var(--muted);border-top:1px solid var(--border);background:rgba(26,86,160,.02)}
+
+/* ─ PROFILE GRID ─ */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:20px}
+.pc{background:var(--glass);backdrop-filter:blur(12px);border:1.5px solid rgba(255,255,255,.75);border-radius:14px;padding:16px;cursor:pointer;transition:.25s;box-shadow:0 3px 12px rgba(26,86,160,.08)}
+.pc:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(26,86,160,.15);border-color:var(--sky2)}
+.pc.sel{border-color:var(--blue);box-shadow:0 0 0 3px rgba(26,86,160,.15)}
+.pca{width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--sky));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;margin-bottom:10px}
+.pcn{font-weight:700;font-size:13px;color:var(--navy);margin-bottom:2px}
+.pci{font-size:10px;color:var(--muted)}
+.pca-row{display:flex;gap:5px;margin-top:10px}
+.add-pc{background:rgba(255,255,255,.4);border:2px dashed var(--sky3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:150px}
+.add-pc:hover{background:rgba(26,86,160,.05);border-color:var(--blue)}
+.add-pc .plus{font-size:26px;color:var(--muted)}
+
+/* ─ MODAL ─ */
+.mb{position:fixed;inset:0;background:rgba(10,37,64,.5);backdrop-filter:blur(5px);z-index:200;display:none;align-items:center;justify-content:center}
+.mb.open{display:flex}
+.modal{background:#fff;border-radius:18px;padding:28px;width:min(560px,92vw);box-shadow:0 20px 60px rgba(0,0,0,.25);max-height:90vh;overflow-y:auto}
+.modal h3{font-family:'Cormorant Garamond',serif;font-size:19px;color:var(--navy);margin-bottom:16px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgf{grid-column:1/-1}
+.fi{display:flex;flex-direction:column;gap:4px}
+.fi label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px}
+.fi input,.fi select{padding:8px 12px;border:1.5px solid #dde8f5;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:12.5px;color:var(--text);background:#f8fbff;outline:none;transition:.2s}
+.fi input:focus,.fi select:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(46,134,222,.1)}
+.shdr{font-family:'Cormorant Garamond',serif;font-size:13.5px;font-weight:600;color:var(--navy);margin:16px 0 10px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.mact{display:flex;gap:8px;justify-content:flex-end;margin-top:20px;padding-top:14px;border-top:1px solid var(--border)}
+
+/* ─ TOAST ─ */
+.toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:10px 20px;border-radius:10px;font-size:12.5px;font-weight:500;box-shadow:0 6px 20px rgba(0,0,0,.3);z-index:999;transform:translateY(60px);opacity:0;transition:.3s}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media print{body,html{display:none!important}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sb">
+  <div class="sb-logo">
+    <div class="sb-brand">ITR Siddhii</div>
+    <div class="sb-tagline">Trusted Platform for ITR &amp; GST</div>
+  </div>
+  <div class="sb-contact">
+    <a href="https://www.itrsiddhii.in" target="_blank">🌐 www.itrsiddhii.in</a>
+    <a href="mailto:support@itrsiddhii.in">✉ support@itrsiddhii.in</a>
+    <a href="tel:9775546262">📞 9775546262</a>
+  </div>
+  <div class="sb-profile" onclick="showPage('profiles')">
+    <div class="sb-avatar" id="sb-av">G</div>
+    <div class="sb-pname" id="sb-nm">GUNODHAR BISWAS</div>
+    <div class="sb-ppan" id="sb-pan">PAN: HMHPB6480H</div>
+    <div class="sb-switch">↔ Switch / Manage Profiles</div>
+  </div>
+  <div class="sb-ay">
+    <label>Assessment Year</label>
+    <div class="ay-track" id="ayTrack"></div>
+    <div class="ay-fy" id="ayFY">Financial Year: 2023–24</div>
+  </div>
+  <nav>
+    <div class="ni active" id="ni-sheet" onclick="showPage('sheet')"><span class="ic">📊</span> Balance Sheet</div>
+    <div class="ni" id="ni-profiles" onclick="showPage('profiles')"><span class="ic">👥</span> Profiles</div>
+    <div class="ni" id="ni-itr" onclick="showPage('itr')"><span class="ic">📋</span> ITR Siddhii Report</div>
+  </nav>
+  <div class="sb-footer">Balance Sheet Pro v3.0<br>© 2024 ITR Siddhii · All rights reserved</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-title" id="tb-title">Balance Sheet — GUNODHAR BISWAS</div>
+    <div class="tb-acts">
+      <button class="btn btn-ghost btn-sm" onclick="addExpRow()">+ Expense</button>
+      <button class="btn btn-ghost btn-sm" onclick="addAssetRow()">+ Asset</button>
+      <button class="btn btn-ghost btn-sm" onclick="addLiabRow()">+ Liability</button>
+      <button class="btn btn-gold btn-sm" onclick="genPDF('blue')">📄 PDF (Blue)</button>
+      <button class="btn btn-sm" style="background:linear-gradient(135deg,#fffbe6,#f5e6a3);color:#7a5800;border-color:#c9a227;font-weight:700" onclick="genPDF('gold')">✨ PDF (Gold)</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══ PROFILES ═══ -->
+    <div class="page" id="page-profiles">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy)">Client Profiles</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Select a profile to load their balance sheet</div>
+        </div>
+        <button class="btn btn-blue" onclick="openModal()">+ New Profile</button>
+      </div>
+      <div class="pg" id="profGrid"></div>
+    </div>
+
+    <!-- ═══ BALANCE SHEET ═══ -->
+    <div class="page active" id="page-sheet">
+
+      <!-- ENTITY -->
+      <div class="card">
+        <div class="ent-hdr">
+          <div class="ent-name" id="d-name">GUNODHAR BISWAS</div>
+          <div class="ent-sub" id="d-addr">Village- SARBESWAR JAYDUAR, Street/Post- CHOTTA SALBARI, Area- SHITALKHUCHI</div>
+          <div class="ent-sub" id="d-dist">District- COOCH BEHAR · PIN: 736101 · West Bengal</div>
+          <div class="ent-pan">PAN: <span id="d-pan">HMHPB6480H</span> &nbsp;|&nbsp; AY: <span id="d-ay">2024-25</span></div>
+        </div>
+        <div class="info-strip">
+          <div class="ic2"><div class="il">Statement Date</div><div class="iv"><input id="stmtDate" value="31st March, 2024" onchange="recalc()" /></div></div>
+          <div class="ic2"><div class="il">Assessment Year</div><div class="iv"><span id="d-ay2" style="font-size:12px;font-weight:600;color:var(--navy)">2024-25</span></div></div>
+          <div class="ic2"><div class="il">Previous Year</div><div class="iv"><span id="d-fy2" style="font-size:12px;font-weight:600;color:var(--navy)">2023-24</span></div></div>
+          <div class="ic2"><div class="il">Nature of Business</div><div class="iv"><input id="bizType" value="Trade / Retail" onchange="recalc()" /></div></div>
+        </div>
+        <div class="assm-bar">
+          <div class="aitem"><label>GP %</label><input type="number" id="gpPct" value="25" min="0" max="100" step="0.5" onchange="recalc()" /><span>of Sales</span></div>
+          <div class="aitem"><label>Drawings %</label><input type="number" id="drawPct" value="60" min="0" max="100" step="1" onchange="recalc()" /><span>of Net Profit</span></div>
+          <div class="tags">
+            <span class="tag tag-g">⚡ Auto-Balance</span>
+            <span class="tag tag-b">ITR Siddhii</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TRADING -->
+      <div class="card">
+        <div class="ch">Trading Account <span style="font-size:8.5px;opacity:.65">For the Year Ending — <span id="trd-dt">31st March, 2024</span></span></div>
+        <div class="dual">
+          <div class="dc">
+            <table>
+              <tr><th>Particulars (Dr)</th><th class="amt">₹</th></tr>
+              <tr><td>To Opening Stock</td><td class="amt"><input class="ed ed-r" id="openStock" value="500000" onchange="recalc()" /></td></tr>
+              <tr><td>To Purchases <span style="font-size:9px;color:var(--muted)">(auto-adjusted)</span></td><td class="amt" id="purchCell" style="font-weight:600;color:var(--blue)">29,30,000</td></tr>
+              <tr class="tr-p"><td>To Gross Profit c/d</td><td class="amt" id="gpAmt">8,90,000</td></tr>
+              <tr class="tr-tot"><td>Total</td><td class="amt" id="trdDr">41,60,000</td></tr>
+            </table>
+          </div>
+          <div class="dc">
+            <table>
+              <tr><th>Particulars (Cr)</th><th class="amt">₹</th></tr>
+              <tr><td>By Sales</td><td class="amt"><input class="ed ed-r" id="sales" value="3560000" onchange="recalc()" /></td></tr>
+              <tr><td>By Closing Stock</td><td class="amt"><input class="ed ed-r" id="closeStock" value="600000" onchange="recalc()" /></td></tr>
+              <tr><td></td><td></td></tr>
+              <tr class="tr-tot"><td>Total</td><td class="amt" id="trdCr">41,60,000</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- P&L -->
+      <div class="card">
+        <div class="ch">Profit &amp; Loss Account <span style="font-size:8.5px;opacity:.65">For the Year Ending — <span id="pl-dt">31st March, 2024</span></span></div>
+        <div class="dual">
+          <div class="dc">
+            <table id="plT">
+              <tr><th>Particulars (Dr)</th><th class="amt">₹</th><th style="width:20px"></th></tr>
+              <tr data-exp><td><input class="ed" value="To Printing &amp; Stationery" /></td><td class="amt"><input class="ed ed-r" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Carriage Inward" /></td><td class="amt"><input class="ed ed-r" value="10000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Repair &amp; Maintenance" /></td><td class="amt"><input class="ed ed-r" value="20000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Postage &amp; Telephone" /></td><td class="amt"><input class="ed ed-r" value="3500" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Staff Salaries" /></td><td class="amt"><input class="ed ed-r" value="128000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Interest on Loan" /></td><td class="amt"><input class="ed ed-r" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Travelling &amp; Conveyance" /></td><td class="amt"><input class="ed ed-r" value="10000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Accounting Charges" /></td><td class="amt"><input class="ed ed-r" value="5000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To Shop Expenses" /></td><td class="amt"><input class="ed ed-r" value="30000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-exp><td><input class="ed" value="To General Expenses" /></td><td class="amt"><input class="ed ed-r" value="31500" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr class="tr-p" id="npRow"><td id="npLbl">To Net Profit c/d</td><td class="amt" id="npAmt">4,92,000</td><td></td></tr>
+              <tr class="tr-tot"><td>Total</td><td class="amt" id="plDr">7,30,000</td><td></td></tr>
+            </table>
+            <button class="add-btn" onclick="addExpRow()">+ Add Expense Row</button>
+          </div>
+          <div class="dc">
+            <table>
+              <tr><th>Particulars (Cr)</th><th class="amt">₹</th></tr>
+              <tr class="tr-p"><td>By Gross Profit b/d</td><td class="amt" id="gpCr">7,30,000</td></tr>
+              <tr><td>By Bank / FD Interest</td><td class="amt"><input class="ed ed-r" id="bankInt" value="0" onchange="recalc()" /></td></tr>
+              <tr><td>By Other Income</td><td class="amt"><input class="ed ed-r" id="otherInc" value="0" onchange="recalc()" /></td></tr>
+              <tr><td></td><td></td></tr>
+              <tr class="tr-tot"><td>Total</td><td class="amt" id="plCr">7,30,000</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- CAPITAL -->
+      <div class="card">
+        <div class="ch">Capital Account</div>
+        <div class="dual">
+          <div class="dc">
+            <table>
+              <tr><th>Particulars (Dr)</th><th class="amt">₹</th></tr>
+              <tr><td>To Drawings</td><td class="amt" id="drawAmt">2,95,200</td></tr>
+              <tr><td>To Balance c/d (Closing Capital)</td><td class="amt" id="capCd">13,76,800</td></tr>
+              <tr class="tr-tot"><td>Total</td><td class="amt" id="capDr">16,72,000</td></tr>
+            </table>
+          </div>
+          <div class="dc">
+            <table>
+              <tr><th>Particulars (Cr)</th><th class="amt">₹</th></tr>
+              <tr><td>By Opening Capital (b/f)</td><td class="amt"><input class="ed ed-r" id="openCap" value="1080000" onchange="recalc()" /></td></tr>
+              <tr class="tr-p"><td>By Net Profit</td><td class="amt" id="capNP">4,92,000</td></tr>
+              <tr><td>By Additional Capital</td><td class="amt"><input class="ed ed-r" id="addCap" value="0" onchange="recalc()" /></td></tr>
+              <tr class="tr-tot"><td>Total</td><td class="amt" id="capCr">15,72,000</td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- BALANCE SHEET -->
+      <div class="card">
+        <div class="ch">Balance Sheet <span style="font-size:8.5px;opacity:.65">As on — <span id="bs-dt">31st March, 2024</span></span></div>
+        <div class="dual">
+          <div class="dc">
+            <table id="liabT">
+              <tr><th>Liabilities</th><th class="amt">₹</th><th style="width:20px"></th></tr>
+              <tr class="tr-s"><td colspan="3">Capital Account</td></tr>
+              <tr><td style="padding-left:18px">Capital (Closing Balance)</td><td class="amt" id="bsCap">13,76,800</td><td></td></tr>
+              <tr class="tr-s"><td colspan="3">Current Liabilities</td></tr>
+              <tr data-liab><td style="padding-left:18px"><input class="ed" value="Sundry Creditors" /></td><td class="amt"><input class="ed ed-r" value="335000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr class="tr-s"><td colspan="3">Loans &amp; Advances</td></tr>
+              <tr data-liab><td style="padding-left:18px"><input class="ed" value="Bank Loan" /></td><td class="amt"><input class="ed ed-r" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr class="tr-tot"><td>Total Liabilities</td><td class="amt" id="totLiab">–</td><td></td></tr>
+            </table>
+            <button class="add-btn" onclick="addLiabRow()">+ Add Liability</button>
+          </div>
+          <div class="dc">
+            <table id="assetT">
+              <tr><th>Assets</th><th class="amt">₹</th><th style="width:20px"></th></tr>
+              <tr class="tr-s"><td colspan="3">Fixed Assets</td></tr>
+              <tr data-asset><td style="padding-left:18px"><input class="ed" value="Block Capital (WDV)" /></td><td class="amt"><input class="ed ed-r" value="400000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr class="tr-s"><td colspan="3">Current Assets</td></tr>
+              <tr data-asset><td style="padding-left:18px"><input class="ed" value="Stock in Trade" /></td><td class="amt"><input class="ed ed-r" value="600000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-asset><td style="padding-left:18px"><input class="ed" value="Sundry Debtors" /></td><td class="amt"><input class="ed ed-r" value="335000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-asset><td style="padding-left:18px"><input class="ed" value="Cash at Bank" /></td><td class="amt"><input class="ed ed-r" id="bankCash" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr data-asset><td style="padding-left:18px"><input class="ed" value="Cash in Hand" /></td><td class="amt"><input class="ed ed-r" id="cashHand" value="325000" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td></tr>
+              <tr class="tr-tot"><td>Total Assets</td><td class="amt" id="totAsset">–</td><td></td></tr>
+            </table>
+            <button class="add-btn" onclick="addAssetRow()">+ Add Asset</button>
+          </div>
+        </div>
+        <div class="bal-check">
+          <div class="dot dok" id="bdot"></div>
+          <span id="bmsg" class="ok">✓ Balance Sheet is Balanced</span>
+          <button class="auto-bal-btn" onclick="autoBalance()">⚖ One-Click Balance</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ ITR REPORT ═══ -->
+    <div class="page" id="page-itr">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--navy)">ITR Siddhii Report</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Auto-generated summary for ITR-3 / ITR-4 Sugam filing</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-gold" onclick="genPDF('blue')">📄 PDF (Blue Theme)</button>
+          <button class="btn btn-sm" style="background:linear-gradient(135deg,#fffbe6,#f5e6a3);color:#7a5800;border-color:#c9a227;font-weight:700;padding:7px 16px;font-size:11.5px" onclick="genPDF('gold')">✨ PDF (Gold Theme)</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch">Income &amp; Business Summary — AY <span id="itr-ay">2024-25</span></div>
+        <div class="itr-g">
+          <div class="itr-c"><div class="itr-l">Gross Turnover / Sales</div><div class="itr-v" id="i-sales">₹ 35,60,000</div></div>
+          <div class="itr-c grn"><div class="itr-l">Gross Profit</div><div class="itr-v" id="i-gp">₹ 8,90,000</div></div>
+          <div class="itr-c"><div class="itr-l">Total Expenses</div><div class="itr-v" id="i-exp">₹ 2,38,000</div></div>
+          <div class="itr-c grn"><div class="itr-l">Net Profit (Business Income)</div><div class="itr-v" id="i-np">₹ 4,92,000</div></div>
+          <div class="itr-c"><div class="itr-l">Opening Capital</div><div class="itr-v" id="i-oc">₹ 10,80,000</div></div>
+          <div class="itr-c"><div class="itr-l">Closing Capital / Net Worth</div><div class="itr-v" id="i-cc">₹ 13,76,800</div></div>
+          <div class="itr-c"><div class="itr-l">Drawings (Personal)</div><div class="itr-v" id="i-draw">₹ 2,95,200</div></div>
+          <div class="itr-c blu"><div class="itr-l">GP Ratio</div><div class="itr-v" id="i-gpr">25.00%</div></div>
+          <div class="itr-c blu"><div class="itr-l">Net Profit Ratio</div><div class="itr-v" id="i-npr">13.82%</div></div>
+          <div class="itr-c blu"><div class="itr-l">Capital Growth</div><div class="itr-v" id="i-cg">27.48%</div></div>
+          <div class="itr-c"><div class="itr-l">Total Assets</div><div class="itr-v" id="i-ta">–</div></div>
+          <div class="itr-c"><div class="itr-l">Total Liabilities</div><div class="itr-v" id="i-tl">–</div></div>
+        </div>
+        <div class="itr-note">⚠ Verify all figures before filing. Applicable under ITR-3 / ITR-4 Sugam (Proprietorship). Generated by ITR Siddhii Balance Sheet Pro.</div>
+      </div>
+      <div class="card">
+        <div class="ch">Section 44AD Compliance</div>
+        <table>
+          <tr><th>Criterion</th><th>Your Figure</th><th>Limit</th><th>Status</th></tr>
+          <tr><td>Total Turnover</td><td class="amt" id="s-sales">₹ 35,60,000</td><td class="amt">₹ 3,00,00,000</td><td id="s-st" style="color:var(--green);font-weight:700">✓ Within Limit</td></tr>
+          <tr><td>Declared Net Profit %</td><td class="amt" id="s-np">13.82%</td><td class="amt">Min 8% (Non-digital)</td><td id="s-pc" style="color:var(--green);font-weight:700">✓ Compliant</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="mb" id="modal">
+  <div class="modal">
+    <h3 id="mTitle">New Client Profile</h3>
+    <div class="shdr">Personal Details</div>
+    <div class="fg">
+      <div class="fi fgf"><label>Full Name / Firm Name *</label><input id="f-name" placeholder="GUNODHAR BISWAS" /></div>
+      <div class="fi"><label>PAN Number *</label><input id="f-pan" placeholder="ABCDE1234F" style="text-transform:uppercase" /></div>
+      <div class="fi"><label>Aadhaar (optional)</label><input id="f-aadh" placeholder="XXXX XXXX XXXX" /></div>
+      <div class="fi"><label>Mobile</label><input id="f-mob" placeholder="+91 XXXXX XXXXX" /></div>
+      <div class="fi"><label>Email</label><input id="f-email" placeholder="email@example.com" /></div>
+    </div>
+    <div class="shdr">Address</div>
+    <div class="fg">
+      <div class="fi fgf"><label>Village / House / Building</label><input id="f-vil" placeholder="Village / Building" /></div>
+      <div class="fi fgf"><label>Street / Post Office</label><input id="f-str" placeholder="Street / Post Office" /></div>
+      <div class="fi"><label>Area / Locality</label><input id="f-area" placeholder="Area" /></div>
+      <div class="fi"><label>District *</label><input id="f-dist" placeholder="District" /></div>
+      <div class="fi"><label>State</label><input id="f-state" placeholder="State" /></div>
+      <div class="fi"><label>PIN Code</label><input id="f-pin" placeholder="700000" maxlength="6" /></div>
+    </div>
+    <div class="shdr">Business Details</div>
+    <div class="fg">
+      <div class="fi"><label>Nature of Business</label><input id="f-biz" placeholder="Trade / Retail" /></div>
+      <div class="fi"><label>GSTIN (optional)</label><input id="f-gstin" placeholder="22AAAAA0000A1Z5" style="text-transform:uppercase" /></div>
+      <div class="fi"><label>ITR Type</label>
+        <select id="f-itr"><option>ITR-4 Sugam (Presumptive)</option><option>ITR-3 (Regular Books)</option><option>ITR-1 Sahaj</option></select>
+      </div>
+      <div class="fi"><label>Assessment Year</label>
+        <select id="f-ay"><option>2023-24</option><option>2024-25</option><option>2025-26</option><option>2026-27</option><option>2027-28</option></select>
+      </div>
+    </div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-blue" onclick="saveProfile()">Save Profile</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── STORE ──
+let profs = JSON.parse(localStorage.getItem('itrS_profs')||'[]');
+let activeIdx = +localStorage.getItem('itrS_idx')||0;
+let editIdx = -1;
+let currentAY = '2024-25';
+
+if(!profs.length){
+  profs=[{name:'GUNODHAR BISWAS',pan:'HMHPB6480H',aadh:'',mob:'',email:'',vil:'SARBESWAR JAYDUAR',str:'CHOTTA SALBARI',area:'SHITALKHUCHI',dist:'COOCH BEHAR',state:'West Bengal',pin:'736101',biz:'Trade / Retail',gstin:'',itr:'ITR-4 Sugam (Presumptive)',ay:'2024-25'}];
+  save();
+}
+
+function save(){ localStorage.setItem('itrS_profs',JSON.stringify(profs)); }
+function saveIdx(){ localStorage.setItem('itrS_idx',activeIdx); }
+
+// ── AY SLIDER ──
+const AYS = ['2023-24','2024-25','2025-26','2026-27','2027-28'];
+function fyFromAY(ay){ const p=parseInt(ay)-1; return p+'-'+(p+1).toString().slice(2); }
+
+function buildAYSlider(){
+  const t = document.getElementById('ayTrack');
+  t.innerHTML = AYS.map((ay,i)=>`<div class="ay-opt${ay===currentAY?' active':''}" onclick="setAY('${ay}')">${ay.slice(2,4)}-${ay.slice(7,9)}</div>`).join('');
+}
+
+function setAY(ay){
+  currentAY = ay;
+  buildAYSlider();
+  document.getElementById('ayFY').textContent = 'Financial Year: '+fyFromAY(ay).replace('-','–20');
+  document.getElementById('d-ay').textContent = ay;
+  document.getElementById('d-ay2').textContent = ay;
+  const fy = fyFromAY(ay);
+  document.getElementById('d-fy2').textContent = fy;
+  document.getElementById('itr-ay').textContent = ay;
+  recalc();
+}
+
+// ── PAGE NAV ──
+function showPage(p){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.ni').forEach(e=>e.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  document.getElementById('ni-'+p).classList.add('active');
+  if(p==='profiles') renderProfiles();
+  if(p==='itr') recalc();
+}
+
+// ── PROFILES ──
+function renderProfiles(){
+  const g = document.getElementById('profGrid');
+  g.innerHTML = profs.map((p,i)=>`
+    <div class="pc${i===activeIdx?' sel':''}" onclick="selProf(${i})">
+      <div class="pca">${p.name.charAt(0)}</div>
+      <div class="pcn">${p.name}</div>
+      <div class="pci">PAN: ${p.pan||'—'}</div>
+      <div class="pci">${p.dist||'—'}, ${p.state||''}</div>
+      <div class="pci" style="margin-top:2px">${p.ay||''} · ${p.itr||''}</div>
+      <div class="pca-row">
+        <button class="btn btn-blue btn-sm" onclick="event.stopPropagation();selProf(${i});showPage('sheet')">Open</button>
+        <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();editProf(${i})">Edit</button>
+        ${i>0?`<button class="btn btn-sm" style="background:#fee2e2;color:var(--red);border-color:#fca5a5" onclick="event.stopPropagation();delProf(${i})">Del</button>`:''}
+      </div>
+    </div>`).join('')+`<div class="pc add-pc" onclick="openModal()"><div class="plus">＋</div><span style="font-size:12px;color:var(--muted)">New Profile</span></div>`;
+}
+
+function selProf(i){ activeIdx=i; saveIdx(); loadProfile(profs[i]); renderProfiles(); }
+function loadProfile(p){
+  document.getElementById('d-name').textContent=p.name;
+  document.getElementById('d-pan').textContent=p.pan||'—';
+  document.getElementById('d-addr').textContent=[p.vil,p.str,p.area].filter(Boolean).join(', ');
+  document.getElementById('d-dist').textContent=`District- ${p.dist||'—'} · PIN: ${p.pin||'—'} · ${p.state||''}`;
+  document.getElementById('sb-av').textContent=p.name.charAt(0);
+  document.getElementById('sb-nm').textContent=p.name;
+  document.getElementById('sb-pan').textContent='PAN: '+(p.pan||'—');
+  document.getElementById('tb-title').textContent='Balance Sheet — '+p.name;
+  document.getElementById('bizType').value=p.biz||'';
+  setAY(p.ay||'2024-25');
+}
+
+function openModal(){ editIdx=-1; clearForm(); document.getElementById('mTitle').textContent='New Client Profile'; document.getElementById('modal').classList.add('open'); }
+function editProf(i){ editIdx=i; fillForm(profs[i]); document.getElementById('mTitle').textContent='Edit Profile'; document.getElementById('modal').classList.add('open'); }
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+
+function clearForm(){ ['f-name','f-pan','f-aadh','f-mob','f-email','f-vil','f-str','f-area','f-dist','f-state','f-pin','f-biz','f-gstin'].forEach(id=>document.getElementById(id).value=''); }
+function fillForm(p){ document.getElementById('f-name').value=p.name||''; document.getElementById('f-pan').value=p.pan||''; document.getElementById('f-aadh').value=p.aadh||''; document.getElementById('f-mob').value=p.mob||''; document.getElementById('f-email').value=p.email||''; document.getElementById('f-vil').value=p.vil||''; document.getElementById('f-str').value=p.str||''; document.getElementById('f-area').value=p.area||''; document.getElementById('f-dist').value=p.dist||''; document.getElementById('f-state').value=p.state||''; document.getElementById('f-pin').value=p.pin||''; document.getElementById('f-biz').value=p.biz||''; document.getElementById('f-gstin').value=p.gstin||''; document.getElementById('f-ay').value=p.ay||'2024-25'; document.getElementById('f-itr').value=p.itr||'ITR-4 Sugam (Presumptive)'; }
+
+function saveProfile(){
+  const nm=document.getElementById('f-name').value.trim();
+  if(!nm){toast('Name is required!');return;}
+  const obj={name:nm,pan:document.getElementById('f-pan').value.trim().toUpperCase(),aadh:document.getElementById('f-aadh').value.trim(),mob:document.getElementById('f-mob').value.trim(),email:document.getElementById('f-email').value.trim(),vil:document.getElementById('f-vil').value.trim(),str:document.getElementById('f-str').value.trim(),area:document.getElementById('f-area').value.trim(),dist:document.getElementById('f-dist').value.trim(),state:document.getElementById('f-state').value.trim(),pin:document.getElementById('f-pin').value.trim(),biz:document.getElementById('f-biz').value.trim(),gstin:document.getElementById('f-gstin').value.trim().toUpperCase(),itr:document.getElementById('f-itr').value,ay:document.getElementById('f-ay').value};
+  if(editIdx>=0){ profs[editIdx]=obj; } else { profs.push(obj); activeIdx=profs.length-1; }
+  save(); saveIdx(); closeModal(); renderProfiles(); selProf(activeIdx); toast('Profile saved ✓');
+}
+
+function delProf(i){ if(!confirm('Delete this profile?'))return; profs.splice(i,1); if(activeIdx>=profs.length)activeIdx=0; save(); saveIdx(); renderProfiles(); if(profs.length)loadProfile(profs[activeIdx]); }
+
+// ── FORMAT ──
+function F(n){
+  n=Math.round(n||0);
+  const neg=n<0; n=Math.abs(n);
+  const s=n.toString(); let r='';
+  for(let i=s.length-1,c=0;i>=0;i--,c++){
+    if(c>0&&c===3)r=','+r; else if(c>3&&(c-3)%2===0)r=','+r;
+    r=s[i]+r;
+  }
+  return neg?'('+r+')':r;
+}
+function V(id){ const e=document.getElementById(id); return e?parseFloat(e.value)||0:0; }
+function ST(id,v){ const e=document.getElementById(id); if(e)e.textContent=F(v); }
+function getExpenses(){ let s=0; document.querySelectorAll('#plT tr[data-exp] td:nth-child(2) input').forEach(i=>s+=parseFloat(i.value)||0); return s; }
+function getLiabs(){ let s=0; document.querySelectorAll('#liabT tr[data-liab] td:nth-child(2) input').forEach(i=>s+=parseFloat(i.value)||0); return s; }
+function getAssets(){ let s=0; document.querySelectorAll('#assetT tr[data-asset] td:nth-child(2) input').forEach(i=>s+=parseFloat(i.value)||0); return s; }
+
+// ── RECALC ──
+function recalc(){
+  const sales=V('sales'), cs=V('closeStock'), os=V('openStock');
+  const gpPct=(parseFloat(document.getElementById('gpPct').value)||25)/100;
+  const gp=sales*gpPct;
+  const tradCr=sales+cs;
+  const purch=Math.max(0,tradCr-os-gp);
+
+  document.getElementById('purchCell').textContent=F(purch);
+  ST('gpAmt',gp);
+  ST('trdDr',tradCr); ST('trdCr',tradCr);
+  document.getElementById('gpCr').textContent=F(gp);
+
+  const bi=V('bankInt'), oi=V('otherInc');
+  const plCrTotal=gp+bi+oi;
+  const exp=getExpenses();
+  const np=plCrTotal-exp;
+  ST('npAmt',Math.abs(np));
+  document.getElementById('npLbl').textContent=np>=0?'To Net Profit c/d':'To Net Loss c/d';
+  ST('plDr',plCrTotal); ST('plCr',plCrTotal);
+
+  const dpct=(parseFloat(document.getElementById('drawPct').value)||60)/100;
+  const draw=Math.max(0,np)*dpct;
+  const oc=V('openCap'), ac=V('addCap');
+  const closeCap=oc+ac+np-draw;
+  ST('drawAmt',draw); ST('capCd',Math.max(0,closeCap)); ST('capNP',np);
+  const capT=oc+ac+np;
+  ST('capDr',capT); ST('capCr',capT);
+
+  const bsCap=Math.max(0,closeCap);
+  document.getElementById('bsCap').textContent=F(bsCap);
+  const liabO=getLiabs(), assetS=getAssets();
+  const tL=bsCap+liabO, tA=assetS;
+  ST('totLiab',tL); ST('totAsset',tA);
+
+  const diff=Math.abs(tL-tA);
+  const bm=document.getElementById('bmsg'), bd=document.getElementById('bdot');
+  if(diff<2){ bm.textContent='✓ Balance Sheet is Balanced'; bm.className='ok'; bd.className='dot dok'; }
+  else { bm.textContent=`⚠ Difference ₹${F(diff)} — Click "One-Click Balance" to fix`; bm.className='fail'; bd.className='dot dfail'; }
+
+  // Date sync
+  const dt=document.getElementById('stmtDate').value;
+  ['trd-dt','pl-dt','bs-dt'].forEach(id=>{ const e=document.getElementById(id); if(e)e.textContent=dt; });
+
+  // ITR
+  const gpr=sales>0?(gp/sales*100):0, npr=sales>0?(np/sales*100):0, cg=oc>0?((closeCap-oc)/oc*100):0;
+  document.getElementById('i-sales').textContent='₹ '+F(sales);
+  document.getElementById('i-gp').textContent='₹ '+F(gp);
+  document.getElementById('i-exp').textContent='₹ '+F(exp);
+  document.getElementById('i-np').textContent='₹ '+F(np);
+  document.getElementById('i-oc').textContent='₹ '+F(oc);
+  document.getElementById('i-cc').textContent='₹ '+F(Math.max(0,closeCap));
+  document.getElementById('i-draw').textContent='₹ '+F(draw);
+  document.getElementById('i-gpr').textContent=gpr.toFixed(2)+'%';
+  document.getElementById('i-npr').textContent=npr.toFixed(2)+'%';
+  document.getElementById('i-cg').textContent=cg.toFixed(2)+'%';
+  document.getElementById('i-ta').textContent='₹ '+F(tA);
+  document.getElementById('i-tl').textContent='₹ '+F(tL);
+  document.getElementById('s-sales').textContent='₹ '+F(sales);
+  document.getElementById('s-np').textContent=npr.toFixed(2)+'%';
+  document.getElementById('s-st').textContent=sales<=30000000?'✓ Within Limit':'⚠ Exceeds Limit'; document.getElementById('s-st').style.color=sales<=30000000?'var(--green)':'var(--red)';
+  document.getElementById('s-pc').textContent=npr>=8?'✓ Compliant':'⚠ Below Min 8%'; document.getElementById('s-pc').style.color=npr>=8?'var(--green)':'var(--red)';
+  document.getElementById('itr-ay').textContent=currentAY;
+
+  return {sales,gp,os,cs,purch,tradCr,plCrTotal,exp,np,draw,oc,ac,closeCap,bsCap,tL,tA,gpr,npr,cg};
+}
+
+// ── ONE-CLICK BALANCE ──
+function autoBalance(){
+  const d=recalc();
+  const diff=d.tL-d.tA;
+  if(Math.abs(diff)<2){ toast('Already balanced ✓'); return; }
+  // Adjust cash in hand
+  const cashEl=document.getElementById('cashHand');
+  if(cashEl){
+    const cur=parseFloat(cashEl.value)||0;
+    cashEl.value=Math.max(0,cur+diff);
+    recalc(); toast('⚖ Balanced! Cash in Hand adjusted by ₹'+F(diff));
+  }
+}
+
+// ── ADD/DEL ROWS ──
+function addExpRow(){
+  const t=document.getElementById('plT'), ref=document.getElementById('npRow');
+  const r=document.createElement('tr'); r.setAttribute('data-exp','');
+  r.innerHTML=`<td><input class="ed" placeholder="Expense name" /></td><td class="amt"><input class="ed ed-r" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td>`;
+  t.insertBefore(r,ref); recalc(); toast('Expense row added ✓');
+}
+function addAssetRow(){
+  const t=document.getElementById('assetT'), ref=t.querySelector('.tr-tot');
+  const r=document.createElement('tr'); r.setAttribute('data-asset','');
+  r.innerHTML=`<td style="padding-left:18px"><input class="ed" placeholder="Asset name" /></td><td class="amt"><input class="ed ed-r" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td>`;
+  t.insertBefore(r,ref); recalc(); toast('Asset row added ✓');
+}
+function addLiabRow(){
+  const t=document.getElementById('liabT'), ref=t.querySelector('.tr-tot');
+  const r=document.createElement('tr'); r.setAttribute('data-liab','');
+  r.innerHTML=`<td style="padding-left:18px"><input class="ed" placeholder="Liability name" /></td><td class="amt"><input class="ed ed-r" value="0" onchange="recalc()" /></td><td><button class="del" onclick="delR(this)">×</button></td>`;
+  t.insertBefore(r,ref); recalc(); toast('Liability row added ✓');
+}
+function delR(btn){ btn.closest('tr').remove(); recalc(); }
+
+// ── TOAST ──
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
+
+// ══════════════════════════════════════════════════════
+// ── PDF GENERATION ──
+// ══════════════════════════════════════════════════════
+function collectAll(){
+  const d=recalc();
+  const p=profs[activeIdx]||{};
+  const dt=document.getElementById('stmtDate').value;
+  const expRows=[]; document.querySelectorAll('#plT tr[data-exp]').forEach(r=>{ const l=r.querySelector('td:nth-child(1) input'); const a=r.querySelector('td:nth-child(2) input'); if(l&&a) expRows.push({l:l.value,a:parseFloat(a.value)||0}); });
+  const liabRows=[]; document.querySelectorAll('#liabT tr[data-liab]').forEach(r=>{ const l=r.querySelector('td:nth-child(1) input'); const a=r.querySelector('td:nth-child(2) input'); if(l&&a) liabRows.push({l:l.value,a:parseFloat(a.value)||0}); });
+  const assetRows=[]; document.querySelectorAll('#assetT tr[data-asset]').forEach(r=>{ const l=r.querySelector('td:nth-child(1) input'); const a=r.querySelector('td:nth-child(2) input'); if(l&&a) assetRows.push({l:l.value,a:parseFloat(a.value)||0}); });
+  return {...d,p,dt,expRows,liabRows,assetRows,ay:currentAY,fy:fyFromAY(currentAY).replace('-','–20'),biz:document.getElementById('bizType').value};
+}
+
+function genPDF(theme){
+  toast('Generating PDF…');
+  const d=collectAll();
+  const html=buildPDF(d,theme);
+  const w=window.open('','_blank','width=860,height=700,scrollbars=yes');
+  if(!w){toast('Allow popups to generate PDF');return;}
+  w.document.write(html); w.document.close();
+  setTimeout(()=>{w.focus();w.print();},900);
+}
+
+function buildPDF(d,theme){
+  const isGold=theme==='gold';
+  const P=isGold?{
+    bg:'#fffdf5',hdr:'linear-gradient(135deg,#3a2a00 0%,#7a5800 50%,#9a7200 100%)',
+    hdrTxt:'#f5e6a3',accent:'#b8860b',accentL:'#f5e6a3',border:'#d4b430',
+    tblH:'#fffbe6',tblHtxt:'#5a3e00',rowH:'#fffdf0',totBg:'#fff8d6',
+    totBorder:'#c9a227',green:'#1a6e3f',blue:'#7a5800',muted:'#8a6a20',
+    bodyFont:'Cormorant Garamond, Georgia, serif'
+  }:{
+    bg:'#f8fbff',hdr:'linear-gradient(135deg,#0a2540 0%,#1a56a0 60%,#2e86de 100%)',
+    hdrTxt:'#e0f0ff',accent:'#1a56a0',accentL:'#ddeeff',border:'#98ccee',
+    tblH:'#e8f4fd',tblHtxt:'#0a2540',rowH:'#f5faff',totBg:'#ddeeff',
+    totBorder:'#1a56a0',green:'#0d6e3f',blue:'#1a56a0',muted:'#5a7fa8',
+    bodyFont:'DM Sans, Arial, sans-serif'
+  };
+  const F2=n=>{ n=Math.round(n||0); const neg=n<0; n=Math.abs(n); const s=n.toString(); let r=''; for(let i=s.length-1,c=0;i>=0;i--,c++){ if(c>0&&c===3)r=','+r; else if(c>3&&(c-3)%2===0)r=','+r; r=s[i]+r; } return neg?'('+r+')':r; };
+  const expDr=d.expRows.map(r=>`<tr><td>${r.l}</td><td class="amt">${F2(r.a)}</td></tr>`).join('');
+  const liabH=d.liabRows.map(r=>`<tr><td style="padding-left:16px">${r.l}</td><td class="amt">${F2(r.a)}</td></tr>`).join('');
+  const assetH=d.assetRows.map(r=>`<tr><td style="padding-left:16px">${r.l}</td><td class="amt">${F2(r.a)}</td></tr>`).join('');
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:${P.bodyFont};font-size:10.5px;color:#0a2540;background:${P.bg}}
+@page{size:A4;margin:10mm 9mm}
+.page{page-break-after:always;padding:0}
+.page:last-child{page-break-after:auto}
+
+.doc-top{background:${P.hdr};color:${P.hdrTxt};padding:10px 16px 8px;border-radius:8px 8px 0 0}
+.brand-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px}
+.brand-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:700;letter-spacing:.2px}
+.brand-tag{font-size:8.5px;opacity:.7;margin-top:2px}
+.contact-col{text-align:right;font-size:8.5px;opacity:.75;line-height:1.6}
+.firm-row{text-align:center;padding:4px 0 0}
+.firm-name{font-family:'Cormorant Garamond',Georgia,serif;font-size:16px;font-weight:700}
+.firm-sub{font-size:9px;opacity:.75;margin-top:2px}
+.doc-meta{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid ${P.border};border-top:none;border-radius:0 0 6px 6px;overflow:hidden;margin-bottom:7px}
+.mc{padding:5px 10px;border-right:1px solid ${P.border}}
+.mc:last-child{border-right:none}
+.ml{font-size:8px;color:${P.muted};text-transform:uppercase;letter-spacing:.6px}
+.mv{font-size:10px;font-weight:700;color:${P.accent};margin-top:1px}
+
+.sec{background:${P.hdr};color:${P.hdrTxt};font-size:8.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 12px;border-radius:4px 4px 0 0;margin-top:6px}
+.dual{display:grid;grid-template-columns:1fr 1fr;border:1px solid ${P.border};border-top:none;border-radius:0 0 6px 6px;overflow:hidden;margin-bottom:2px}
+.col{border-right:1px solid ${P.border}}
+.col:last-child{border-right:none}
+table{width:100%;border-collapse:collapse}
+th{background:${P.tblH};color:${P.tblHtxt};font-size:8.5px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:5px 10px;border-bottom:1.5px solid ${P.border}}
+td{padding:3.5px 10px;border-bottom:1px solid ${P.rowH};font-size:10px}
+tr:last-child td{border-bottom:none}
+.tot td{border-top:1.5px solid ${P.totBorder};border-bottom:1.5px double ${P.totBorder}!important;font-weight:700;background:${P.totBg};color:${P.accent}}
+.prft td{color:${P.green};font-weight:600}
+.srow td{background:${P.tblH};font-weight:700;font-size:8.5px;color:${P.accent};letter-spacing:.5px;text-transform:uppercase;padding:3.5px 10px}
+.amt{text-align:right}
+.indent{padding-left:16px!important}
+
+.itr-box{border:1px solid ${P.border};border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+.ig{display:grid;grid-template-columns:repeat(3,1fr)}
+.ic{padding:5px 10px;border-right:1px solid ${P.border};border-bottom:1px solid ${P.rowH}}
+.ic:nth-child(3n){border-right:none}
+.il{font-size:7.5px;color:${P.muted};text-transform:uppercase;letter-spacing:.5px}
+.iv{font-size:11.5px;font-weight:700;color:${P.accent};margin-top:1px}
+.ic.g .iv{color:${P.green}}
+.note{padding:5px 10px;font-size:8.5px;color:${P.muted};background:${P.rowH}}
+
+.sign-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px}
+.sign-box{text-align:center}
+.sign-line{border-bottom:1px solid ${P.accent};height:28px;margin-bottom:3px}
+.sign-lbl{font-size:8px;color:${P.muted};text-transform:uppercase;letter-spacing:.6px}
+.sign-nm{font-size:9px;color:${P.accent};margin-top:1px}
+.footer-strip{margin-top:8px;padding:5px 10px;background:${P.tblH};border-radius:4px;display:flex;align-items:center;justify-content:space-between;font-size:7.5px;color:${P.muted};border:1px solid ${P.border}}
+</style></head><body>
+
+<!-- PAGE 1 -->
+<div class="page">
+<div class="doc-top">
+  <div class="brand-row">
+    <div><div class="brand-name">ITR Siddhii</div><div class="brand-tag">Trusted Platform for ITR &amp; GST</div></div>
+    <div class="contact-col">www.itrsiddhii.in &nbsp;|&nbsp; support@itrsiddhii.in &nbsp;|&nbsp; 9775546262</div>
+  </div>
+  <div class="firm-row">
+    <div class="firm-name">${d.p.name||'—'}</div>
+    <div class="firm-sub">${[d.p.vil,d.p.str,d.p.area].filter(Boolean).join(', ')} | ${d.p.dist||''}, ${d.p.state||''} – ${d.p.pin||''}</div>
+    <div class="firm-sub">PAN: ${d.p.pan||'—'} &nbsp;|&nbsp; ${d.p.gstin?'GSTIN: '+d.p.gstin+' |':''} ${d.p.itr||''}</div>
+  </div>
+</div>
+<div class="doc-meta">
+  <div class="mc"><div class="ml">Statement Date</div><div class="mv">${d.dt}</div></div>
+  <div class="mc"><div class="ml">Assessment Year</div><div class="mv">${d.ay}</div></div>
+  <div class="mc"><div class="ml">Financial Year</div><div class="mv">${d.fy}</div></div>
+  <div class="mc"><div class="ml">Nature of Business</div><div class="mv">${d.biz||'Trade'}</div></div>
+</div>
+
+<div class="sec">Trading Account — For the Year Ending ${d.dt}</div>
+<div class="dual">
+  <div class="col"><table>
+    <tr><th>Particulars (Dr)</th><th class="amt">Amount (₹)</th></tr>
+    <tr><td>To Opening Stock</td><td class="amt">${F2(d.os)}</td></tr>
+    <tr><td>To Purchases</td><td class="amt">${F2(d.purch)}</td></tr>
+    <tr class="prft"><td>To Gross Profit c/d</td><td class="amt">${F2(d.gp)}</td></tr>
+    <tr class="tot"><td>Total</td><td class="amt">${F2(d.tradCr)}</td></tr>
+  </table></div>
+  <div class="col"><table>
+    <tr><th>Particulars (Cr)</th><th class="amt">Amount (₹)</th></tr>
+    <tr><td>By Sales</td><td class="amt">${F2(d.sales)}</td></tr>
+    <tr><td>By Closing Stock</td><td class="amt">${F2(d.cs)}</td></tr>
+    <tr><td></td><td></td></tr>
+    <tr class="tot"><td>Total</td><td class="amt">${F2(d.tradCr)}</td></tr>
+  </table></div>
+</div>
+
+<div class="sec">Profit &amp; Loss Account — For the Year Ending ${d.dt}</div>
+<div class="dual">
+  <div class="col"><table>
+    <tr><th>Particulars (Dr)</th><th class="amt">Amount (₹)</th></tr>
+    ${expDr}
+    <tr class="prft"><td>${d.np>=0?'To Net Profit c/d':'To Net Loss c/d'}</td><td class="amt">${F2(Math.abs(d.np))}</td></tr>
+    <tr class="tot"><td>Total</td><td class="amt">${F2(d.plCrTotal)}</td></tr>
+  </table></div>
+  <div class="col"><table>
+    <tr><th>Particulars (Cr)</th><th class="amt">Amount (₹)</th></tr>
+    <tr class="prft"><td>By Gross Profit b/d</td><td class="amt">${F2(d.gp)}</td></tr>
+    ${d.plCrTotal-d.gp>0?`<tr><td>By Other Income / Interest</td><td class="amt">${F2(d.plCrTotal-d.gp)}</td></tr>`:'<tr><td></td><td></td></tr>'}
+    <tr><td></td><td></td></tr>
+    <tr class="tot"><td>Total</td><td class="amt">${F2(d.plCrTotal)}</td></tr>
+  </table></div>
+</div>
+
+<div class="sec">Capital Account</div>
+<div class="dual">
+  <div class="col"><table>
+    <tr><th>Particulars (Dr)</th><th class="amt">Amount (₹)</th></tr>
+    <tr><td>To Drawings</td><td class="amt">${F2(d.draw)}</td></tr>
+    <tr><td>To Balance c/d (Closing Capital)</td><td class="amt">${F2(Math.max(0,d.closeCap))}</td></tr>
+    <tr class="tot"><td>Total</td><td class="amt">${F2(d.oc+d.ac+d.np)}</td></tr>
+  </table></div>
+  <div class="col"><table>
+    <tr><th>Particulars (Cr)</th><th class="amt">Amount (₹)</th></tr>
+    <tr><td>By Opening Capital (b/f)</td><td class="amt">${F2(d.oc)}</td></tr>
+    ${d.ac?`<tr><td>By Additional Capital</td><td class="amt">${F2(d.ac)}</td></tr>`:''}
+    <tr class="prft"><td>By Net Profit</td><td class="amt">${F2(d.np)}</td></tr>
+    <tr class="tot"><td>Total</td><td class="amt">${F2(d.oc+d.ac+d.np)}</td></tr>
+  </table></div>
+</div>
+
+<div class="footer-strip">
+  <span>ITR Siddhii Balance Sheet Pro · www.itrsiddhii.in · 9775546262</span>
+  <span>AY: ${d.ay} · Page 1 of 2</span>
+</div>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page">
+<div class="doc-top">
+  <div class="brand-row">
+    <div><div class="brand-name">ITR Siddhii</div><div class="brand-tag">Balance Sheet — Statement of Affairs</div></div>
+    <div class="contact-col">${d.p.name||'—'} &nbsp;|&nbsp; PAN: ${d.p.pan||'—'} &nbsp;|&nbsp; AY: ${d.ay}</div>
+  </div>
+</div>
+
+<div class="sec">Balance Sheet — As on ${d.dt}</div>
+<div class="dual">
+  <div class="col"><table>
+    <tr><th>Liabilities</th><th class="amt">Amount (₹)</th></tr>
+    <tr class="srow"><td colspan="2">Capital Account</td></tr>
+    <tr><td class="indent">Capital (Closing Balance)</td><td class="amt">${F2(Math.max(0,d.closeCap))}</td></tr>
+    <tr class="srow"><td colspan="2">Current Liabilities</td></tr>
+    ${liabH}
+    <tr class="tot"><td>Total Liabilities</td><td class="amt">${F2(d.tL)}</td></tr>
+  </table></div>
+  <div class="col"><table>
+    <tr><th>Assets</th><th class="amt">Amount (₹)</th></tr>
+    <tr class="srow"><td colspan="2">Fixed Assets</td></tr>
+    ${assetH.split('\n').filter((_,i)=>i===0||d.assetRows[i] && !d.assetRows[i].l.toLowerCase().match(/stock|debtor|cash|bank/)).join('\n')}
+    <tr class="srow"><td colspan="2">Current Assets</td></tr>
+    ${d.assetRows.filter(r=>r.l.toLowerCase().match(/stock|debtor|cash|bank/)).map(r=>`<tr><td class="indent">${r.l}</td><td class="amt">${F2(r.a)}</td></tr>`).join('')}
+    ${d.assetRows.filter(r=>!r.l.toLowerCase().match(/stock|debtor|cash|bank|block|capital|land|build|plant|equip/)).map(r=>`<tr><td class="indent">${r.l}</td><td class="amt">${F2(r.a)}</td></tr>`).join('')}
+    <tr class="tot"><td>Total Assets</td><td class="amt">${F2(d.tA)}</td></tr>
+  </table></div>
+</div>
+<div style="padding:4px 10px;font-size:8.5px;font-weight:600;color:${Math.abs(d.tL-d.tA)<2?P.green:'#b91c1c'};border:1px solid ${Math.abs(d.tL-d.tA)<2?'#86efac':'#fca5a5'};border-top:none;border-radius:0 0 4px 4px;background:${Math.abs(d.tL-d.tA)<2?'#f0fdf4':'#fff5f5'}">
+  ${Math.abs(d.tL-d.tA)<2?'✓ Balance Sheet Balanced — Total Assets = Total Liabilities':'⚠ Balance Sheet Difference: ₹'+F2(Math.abs(d.tL-d.tA))}
+</div>
+
+<div class="sec" style="margin-top:7px">ITR Siddhii — Income &amp; Profit Summary (AY ${d.ay} · FY ${d.fy})</div>
+<div class="itr-box">
+  <div class="ig">
+    <div class="ic"><div class="il">Gross Turnover</div><div class="iv">₹ ${F2(d.sales)}</div></div>
+    <div class="ic g"><div class="il">Gross Profit</div><div class="iv">₹ ${F2(d.gp)}</div></div>
+    <div class="ic"><div class="il">Total Expenses</div><div class="iv">₹ ${F2(d.exp)}</div></div>
+    <div class="ic g"><div class="il">Net Profit (Business Income)</div><div class="iv">₹ ${F2(d.np)}</div></div>
+    <div class="ic"><div class="il">Opening Capital</div><div class="iv">₹ ${F2(d.oc)}</div></div>
+    <div class="ic"><div class="il">Closing Capital / Net Worth</div><div class="iv">₹ ${F2(Math.max(0,d.closeCap))}</div></div>
+    <div class="ic"><div class="il">Drawings (Personal)</div><div class="iv">₹ ${F2(d.draw)}</div></div>
+    <div class="ic"><div class="il">GP Ratio</div><div class="iv">${d.gpr.toFixed(2)}%</div></div>
+    <div class="ic"><div class="il">Net Profit Ratio</div><div class="iv">${d.npr.toFixed(2)}%</div></div>
+  </div>
+  <div class="note">⚠ Verify all figures before filing. Generated by ITR Siddhii Balance Sheet Pro for AY ${d.ay}. Not a certified document unless signed by CA.</div>
+</div>
+
+<div class="sec" style="margin-top:7px">Section 44AD Compliance</div>
+<div style="border:1px solid ${P.border};border-top:none;border-radius:0 0 5px 5px;overflow:hidden">
+<table>
+  <tr><th>Criterion</th><th>Your Figure</th><th>Limit</th><th>Status</th></tr>
+  <tr><td>Total Turnover</td><td class="amt">₹ ${F2(d.sales)}</td><td class="amt">₹ 3,00,00,000</td><td style="color:${d.sales<=30000000?P.green:'#b91c1c'};font-weight:700">${d.sales<=30000000?'✓ Within Limit':'⚠ Exceeds'}</td></tr>
+  <tr><td>Declared Net Profit %</td><td class="amt">${d.npr.toFixed(2)}%</td><td class="amt">Min 8%</td><td style="color:${d.npr>=8?P.green:'#b91c1c'};font-weight:700">${d.npr>=8?'✓ Compliant':'⚠ Below 8%'}</td></tr>
+</table>
+</div>
+
+<div class="sign-row">
+  <div class="sign-box"><div class="sign-line"></div><div class="sign-lbl">Proprietor's Signature</div><div class="sign-nm">${d.p.name||''}</div></div>
+  <div class="sign-box"><div class="sign-line"></div><div class="sign-lbl">Tax Consultant / CA</div><div class="sign-nm">ITR Siddhii · 9775546262</div></div>
+</div>
+<div class="footer-strip">
+  <span>ITR Siddhii · www.itrsiddhii.in · support@itrsiddhii.in · 9775546262</span>
+  <span>AY: ${d.ay} · Page 2 of 2 · ${isGold?'Gold':'Blue'} Edition</span>
+</div>
+</div>
+</body></html>`;
+}
+
+// ── INIT ──
+buildAYSlider();
+setAY(profs[activeIdx]?.ay||'2024-25');
+loadProfile(profs[activeIdx]||profs[0]);
+recalc();
+</script>
+</body>
+</html>
